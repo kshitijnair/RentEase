@@ -1,15 +1,47 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  SafeAreaView,
+  Button,
+} from "react-native";
 import React, { useState } from "react";
 import { auth } from "../firebase/firebaseSetup";
 
-const Login = () => {
-  const [userEmail, seUserEmail] = useState("");
+const Login = ({ navigation }) => {
+  const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
+  const signUpHandler = () => {
+    console.log("Taking user to signup page.");
+    navigation.replace("Signup");
+  };
+
   return (
-    <View>
-      <Text>Login</Text>
-    </View>
+    <SafeAreaView>
+      <Text style={styles.banner}>Hi!</Text>
+      <TextInput
+        style={styles.inputField}
+        value={userEmail}
+        placeholder="email"
+        onChangeText={(newEmail) => {
+          console.log(newEmail);
+          setUserEmail(newEmail);
+        }}
+      />
+      <TextInput
+        style={styles.inputField}
+        secureTextEntry={true}
+        value={userPassword}
+        placeholder="p**sw**d"
+        onChangeText={(newPassword) => {
+          console.log("password updated");
+          setUserPassword(newPassword);
+        }}
+      />
+      <Button title="Sign In" onPress={() => console.log("button pressed")} />
+      <Button title="Sign Up" onPress={signUpHandler} />
+    </SafeAreaView>
   );
 };
 

@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { Ionicons } from "@expo/vector-icons";
+import testcomponent from "./components/TestComponent";
 
 const Home = () => {
   const Stack = createNativeStackNavigator();
@@ -14,6 +15,11 @@ const Home = () => {
       <Stack.Screen name="Signup" component={Signup} />
     </>
   );
+  const AppStack = (
+    <>
+      <Stack.Screen name = "AllLists" component={testcomponent} />
+    </>
+  )
 
   return (
     <View>

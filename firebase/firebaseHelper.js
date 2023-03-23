@@ -13,9 +13,11 @@ export async function loginWithEmailAndPassword(email, password) {
       password
     );
     console.log(userCredentials);
+    console.log("euiorhgiwurih")
     return userCredentials;
   } catch (err) {
     console.log("Error encountered with user login: ", err);
+    return "error";
   }
 }
 
@@ -30,6 +32,7 @@ export async function createNewUser(email, password) {
     return userCredentials;
   } catch (err) {
     console.log("Error encountered with user logout: ", err);
+    return "error";
   }
 }
 

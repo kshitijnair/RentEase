@@ -20,7 +20,7 @@ const SignUp = ({ navigation }) => {
     navigation.replace("Login");
   };
 
-  const signupHandler = async () => {
+  const signUpHandler = async () => {
     if (userEmail!='' && userPassword!='') {
       console.log("creating new user.")
       Alert.alert("creating new user")
@@ -64,7 +64,7 @@ const SignUp = ({ navigation }) => {
           setconfirmUserPassword(confirmPassword);
         }}
       />
-      <Button title="Sign Up" onPress={signupHandler} />
+      <Button title="Sign Up" onPress={signUpHandler} />
       <Button title="Already a user? Sign in." onPress={signInHandler} />
     </SafeAreaView>
   );

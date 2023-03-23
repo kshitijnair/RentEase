@@ -4,9 +4,11 @@ import {
   TextInput,
   SafeAreaView,
   Button,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { auth } from "../firebase/firebaseSetup";
+import { loginWithEmailAndPassword } from "../firebase/firebaseHelper";
 
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState("");
@@ -15,6 +17,16 @@ const Login = ({ navigation }) => {
   const signUpHandler = () => {
     console.log("Taking user to signup page.");
     navigation.replace("Signup");
+  };
+
+  const signInHander = () => {
+    if (userEmail != "" && userPassword != "") {
+      const result = loginWithEmailAndPassword(userEmail, userPassword);
+      console.log('RESULT IS: ', result)
+      if (!result.email)
+        Alert.alert("There was an error with your login!");
+      else console.log("User logged in: ", auth.currentUser.email);
+    } else Alert.alert("Please check input fields!");
   };
 
   return (
@@ -39,7 +51,7 @@ const Login = ({ navigation }) => {
           setUserPassword(newPassword);
         }}
       />
-      <Button title="Sign In" onPress={() => console.log("button pressed")} />
+      <Button title="Sign In" onPress={signInHander} />
       <Button title="Sign Up" onPress={signUpHandler} />
     </SafeAreaView>
   );

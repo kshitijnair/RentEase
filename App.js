@@ -2,12 +2,27 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { useEffect } from "react";
+
 import Home from "./Home";
 import Login from "./components/Login";
 import Signup from "./components/SignUp";
 import TestComponent from "./components/TestComponent";
 
 export default function App() {
+  // const [isAuthenticated, setIsAuthenticated] = useState(false); 
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsAuthenticated(true)
+      } else {
+        setIsAuthenticated(false)
+      }
+    })
+  })
+
   const Stack = createNativeStackNavigator();
   const AuthStack = (
     <>

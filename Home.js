@@ -8,6 +8,8 @@ import { Ionicons } from "@expo/vector-icons";
 import testcomponent from "./components/TestComponent";
 
 const Home = () => {
+  const [authenticated, setAuthenticated] = useState(false);
+
   const Stack = createNativeStackNavigator();
   const AuthStack = (
     <>

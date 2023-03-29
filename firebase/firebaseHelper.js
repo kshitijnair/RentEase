@@ -5,6 +5,11 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 
+export function isLoggedIn() {
+    if (auth.currentUser) return true;
+    return false;
+}
+
 export async function loginWithEmailAndPassword(email, password) {
   try {
     const userCredentials = await signInWithEmailAndPassword(

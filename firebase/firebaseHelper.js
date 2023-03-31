@@ -17,8 +17,7 @@ export async function loginWithEmailAndPassword(email, password) {
       email,
       password
     );
-    console.log(userCredentials);
-    console.log("euiorhgiwurih")
+    console.log(userCredentials)
     return userCredentials;
   } catch (err) {
     console.log("Error encountered with user login: ", err);

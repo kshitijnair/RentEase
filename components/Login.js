@@ -22,10 +22,8 @@ const Login = ({ navigation }) => {
   const signInHander = async () => {
     if (userEmail != "" && userPassword != "") {
       const result = await loginWithEmailAndPassword(userEmail, userPassword);
-      console.log('RESULT IS: ', result)
-      if (!result.user)
-        Alert.alert("There was an error with your login!");
-      else console.log("User logged in: ", auth.currentUser.email);
+      if (!result.user) Alert.alert("There was an error with your login!");
+      else Alert.alert("Welcome, " + auth.currentUser.email);
     } else Alert.alert("Please check input fields!");
   };
 

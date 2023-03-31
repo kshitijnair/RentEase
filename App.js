@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import { Alert, StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -12,31 +12,33 @@ import TestComponent from "./components/TestComponent";
 import { auth } from "./firebase/firebaseSetup";
 
 export default function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false); 
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [hasProfile, setHasProfile] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        setIsAuthenticated(true)
+        setIsAuthenticated(true);
       } else {
-        setIsAuthenticated(false)
+        setIsAuthenticated(false);
       }
-    })
-  })
+    });
+  });
 
   const Stack = createNativeStackNavigator();
   const AuthStack = (
     <>
       <Stack.Screen
         options={{
-          headerShown: false
+          headerShown: true,
         }}
         name="Login"
         component={Login}
+        initialParams={{ hasProfile: hasProfile }}
       />
       <Stack.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
         }}
         name="Signup"
         component={Signup}
@@ -45,21 +47,40 @@ export default function App() {
   );
   const AppStack = (
     <>
-      <Stack.Screen name="AllLists" component={TestComponent} />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+          headerRight: () => (
+            <Button
+              onPress={async() => {
+                try {
+                  const res = await signOut(auth)
+                } catch(err) {
+                  console.log("Error logging out: ", err)
+                }
+              }}
+              title="Logout"
+              color="#fff"
+            />
+          ),
+        }}
+        name="AllLists"
+        component={TestComponent}
+      />
     </>
   );
 
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="LogOSOSin"
+        initialRouteName="Login"
         screenOptions={{
           headerStyle: { backgroundColor: "#a5a" },
           headerTintColor: "#eee",
           headerTitleStyle: { fontSize: 20 },
         }}
       >
-        {AuthStack}
+        {isAuthenticated ? AppStack : AuthStack}
       </Stack.Navigator>
     </NavigationContainer>
   );

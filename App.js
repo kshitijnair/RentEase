@@ -6,14 +6,16 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Home from "./Home";
 import Login from "./components/Login";
 import Signup from "./components/SignUp";
 import TestComponent from "./components/TestComponent";
 import { auth } from "./firebase/firebaseSetup";
+import Home from './components/Home';
 
 export default function App() {
+  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasProfile, setHasProfile] = useState(false);
 
@@ -67,7 +69,7 @@ export default function App() {
           ),
         }}
         name="AllLists"
-        component={TestComponent}
+        component={Home}
       />
     </>
   );

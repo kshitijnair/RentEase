@@ -1,3 +1,5 @@
+
+import RentalList from './components/RentalList';
 import { StatusBar } from "expo-status-bar";
 import { Alert, StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";

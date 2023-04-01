@@ -8,7 +8,7 @@ To run the application on your local machine:
 Ensure that you have a device emulator running or a physical device connected to your computer.
 
 
-# Features(Sujit)
+# Features working(Sujit)
 This application allows users to:
 * View a list of apartments.
 * Search for apartments based on their title and address.

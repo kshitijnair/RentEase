@@ -1,5 +1,6 @@
 
 import RentalList from './components/RentalList';
+import RentalDetail from './components/RentalDetail';
 import { StatusBar } from "expo-status-bar";
 import { Alert, StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
@@ -70,6 +71,20 @@ export default function App() {
         }}
         name="AllLists"
         component={Home}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="RentalList"
+        component={RentalList}
+      />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="RentalDetail"
+        component={RentalDetail}
       />
     </>
   );

@@ -5,7 +5,7 @@ import { collection, query, onSnapshot } from 'firebase/firestore';
 
 import RentalListItem from './RentalListItem';
 
-const RentalList = () => {
+const RentalList = ({ navigation }) => {
   const [listings, setListings] = useState([]);
 
 
@@ -27,7 +27,7 @@ const RentalList = () => {
   }, []);
   return (
     <View style={styles.container}>
-      <RentalListItem data={listings} />
+      <RentalListItem data={listings} navigation={navigation} />
     </View>
   );
 };

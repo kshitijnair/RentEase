@@ -13,6 +13,7 @@ import TestComponent from "./components/TestComponent";
 import { auth } from "./firebase/firebaseSetup";
 import Home from "./components/Home";
 import ProfileSetup from "./components/ProfileSetup";
+import TempFullView from "./components/TempFullView";
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -37,9 +38,11 @@ export default function App() {
           headerShown: true,
         }}
         name="Login"
-        component={Login}
-        initialParams={{ hasProfile: hasProfile }}
-      />
+      >
+        {(props) => (
+          <Login {...props} setUserHasProfile={setUserHasProfile} />
+        )}
+      </Stack.Screen>
       <Stack.Screen
         options={{
           headerShown: true,
@@ -53,7 +56,9 @@ export default function App() {
         }}
         name="ProfileSetup"
       >
-        {(props) => <ProfileSetup {...props} setUserHasProfile={setUserHasProfile} />}
+        {(props) => (
+          <ProfileSetup {...props} setUserHasProfile={setUserHasProfile} />
+        )}
       </Stack.Screen>
     </>
   );
@@ -79,6 +84,7 @@ export default function App() {
         name="AllLists"
         component={Home}
       />
+      <Stack.Screen name="ItemDescription" component={TempFullView} />
     </>
   );
 

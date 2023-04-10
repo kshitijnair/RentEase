@@ -54,7 +54,7 @@ export async function addNewUserToFirebase(userDetails) {
       // console.log(data)
       const docRef = await addDoc(collection(firestore, "Users"), data);
       console.log("Document written with ID: ", docRef.id);
-      return 1;
+      return 2;
     } catch (err) {
       console.log(err);
       return 0;

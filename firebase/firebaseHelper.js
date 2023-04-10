@@ -47,6 +47,20 @@ export async function writeToDB() {
   }
 }
 
+export async function addNewUserToFirebase(userDetails) {
+    // Add a new document with a generated id.
+    try {
+      data = {...userDetails, user: auth.currentUser.uid}
+      // console.log(data)
+      const docRef = await addDoc(collection(firestore, "Users"), data);
+      console.log("Document written with ID: ", docRef.id);
+      return 1;
+    } catch (err) {
+      console.log(err);
+      return 0;
+    }
+}
+
 export async function deleteFromDB() {
   try {
   } catch (err) {

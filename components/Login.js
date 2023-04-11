@@ -9,6 +9,8 @@ import {
 import React, { useState } from "react";
 import { auth } from "../firebase/firebaseSetup";
 import { loginWithEmailAndPassword } from "../firebase/firebaseHelper";
+import {  signInAnonymously } from 'firebase/auth';
+
 
 const Login = ({ navigation }) => {
   const [userEmail, setUserEmail] = useState("");
@@ -25,6 +27,18 @@ const Login = ({ navigation }) => {
       if (!result.user) Alert.alert("There was an error with your login!");
       else Alert.alert("Welcome, " + auth.currentUser.email);
     } else Alert.alert("Please check input fields!");
+  };
+
+  const signInAnonymouslyHandler = async () => {
+    try {
+      await signInAnonymously(auth);
+      const user = auth.currentUser;
+      console.log(user);
+      Alert.alert("You are signed in anonymously!");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("There was an error signing in anonymously!");
+    }
   };
 
   return (
@@ -51,6 +65,7 @@ const Login = ({ navigation }) => {
       />
       <Button title="Sign In" onPress={signInHander} />
       <Button title="Sign Up" onPress={signUpHandler} />
+      <Button title="Sign In Anonymously" onPress={signInAnonymouslyHandler} />
     </SafeAreaView>
   );
 };

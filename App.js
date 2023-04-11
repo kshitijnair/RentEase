@@ -1,11 +1,10 @@
-
 import RentalList from './components/RentalList';
 import RentalDetail from './components/RentalDetail';
 import { StatusBar } from "expo-status-bar";
 import { Alert, StyleSheet, Text, View, Button } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut, signInAnonymously } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -19,16 +18,33 @@ export default function App() {
   
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [hasProfile, setHasProfile] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
+  
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      console.log("onAuthStateChanged triggered. user: ", user);
       if (user) {
         setIsAuthenticated(true);
+        setCurrentUser(user);
+        if (!user.isAnonymous) {
+          setHasProfile(true);
+        } else {
+          setHasProfile(false);
+        }
+        
       } else {
         setIsAuthenticated(false);
+        setCurrentUser(null);
+        
       }
     });
-  });
+    
+    return unsubscribe;
+  }, []);
+  
+  
+
 
   const Stack = createNativeStackNavigator();
   const AuthStack = (
@@ -57,11 +73,31 @@ export default function App() {
           headerShown: true,
           headerRight: () => (
             <Button
-              onPress={async() => {
+              onPress={async () => {
                 try {
-                  const res = await signOut(auth)
-                } catch(err) {
-                  console.log("Error logging out: ", err)
+                  if (currentUser.isAnonymous) {
+                    // Delete the anonymous user account
+                    if (auth.currentUser) {
+                      console.log('delet');
+                      await auth.currentUser.delete();
+                    }
+                    
+                    
+                    setCurrentUser(null);
+                    setHasProfile(false);
+                   
+                  }
+                  await signOut(auth);
+                  
+                  setCurrentUser(null);
+                  setHasProfile(false);
+                  
+                  // Set the state to indicate that the user logged out from an anonymous account
+                  
+                  
+                 
+                } catch (err) {
+                  console.log("Error logging out: ", err);
                 }
               }}
               title="Logout"
@@ -104,6 +140,9 @@ export default function App() {
     </NavigationContainer>
   );
 }
+
+
+
 
 const styles = StyleSheet.create({
   container: {

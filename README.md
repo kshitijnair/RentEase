@@ -33,6 +33,7 @@ This application allows users to:
   - Profile Picture:  Users can take a picture of themselves using their device's camera and use it as their profile picture.      This feature makes it easy for users to personalize their profiles and make them more recognizable to other users.
   
 ## Features (Kshitij)
+- Authentication: User Login and Signup added. User is asked more details when Signing Up and these are stored in a Firestore Document in the 'Users' Collection.
   - CRUD: User's when signing up and now presented with a Profile Setup Page that takes in user details and stores it on Firestore. For this, the UUID of he Firebase Authentication is used in the 'user' field to make each entry unique and identifiable.
   - Location API: On the Profile Setup Page, users can also locate themselves using the Google Maps Location API that locattes the user with the GPS sensor (after asking permissions)
   - Reverse Geocoding API (External API): This API is used to figure out the Street Location of the user in {Number, Street, Locality, City, Province, Country, Postal Code} format and is used in the 'Location' field of the form for User Details.

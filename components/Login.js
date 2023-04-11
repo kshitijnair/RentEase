@@ -8,9 +8,12 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { auth } from "../firebase/firebaseSetup";
-import { loginWithEmailAndPassword } from "../firebase/firebaseHelper";
+import {
+  getUserDetails,
+  loginWithEmailAndPassword,
+} from "../firebase/firebaseHelper";
 
-const Login = ({ navigation }) => {
+const Login = ({ navigation, setUserHasProfile }) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
@@ -23,7 +26,18 @@ const Login = ({ navigation }) => {
     if (userEmail != "" && userPassword != "") {
       const result = await loginWithEmailAndPassword(userEmail, userPassword);
       if (!result.user) Alert.alert("There was an error with your login!");
-      else Alert.alert("Welcome, " + auth.currentUser.email);
+      else {
+        console.log(auth.currentUser.uid);
+        const userDetails = await getUserDetails(auth.currentUser.uid);
+        console.log(userDetails);
+        if (userDetails) {
+          setUserHasProfile(true);
+          Alert.alert(`Welcome, ${userDetails["name"]}!`);
+        } else {
+          setUserHasProfile(false);
+          console.log("in else")
+        }
+      }
     } else Alert.alert("Please check input fields!");
   };
 

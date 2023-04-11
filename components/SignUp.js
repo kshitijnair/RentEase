@@ -3,8 +3,8 @@ import {
   Text,
   Button,
   TextInput,
-  SafeAreaView, 
-  Alert
+  SafeAreaView,
+  Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 
@@ -21,17 +21,18 @@ const SignUp = ({ navigation }) => {
   };
 
   const signUpHandler = async () => {
-    if (userEmail!='' && userPassword!='') {
-      console.log("creating new user.")
-      Alert.alert("creating new user")
+    if (userEmail != "" && userPassword != "") {
+      // Alert.alert("creating new user")
       if (confirmUserPassword !== userPassword)
         Alert.alert("The passwords don't match");
       else {
+        console.log("creating new user.");
         const user = await createNewUser(userEmail, confirmUserPassword);
         console.log(user);
+        navigation.replace("ProfileSetup");
       }
     } else {
-      Alert.alert("Invalid Inputs!")
+      Alert.alert("Invalid Inputs!");
     }
   };
 

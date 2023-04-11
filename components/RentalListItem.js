@@ -1,31 +1,46 @@
-import React, { useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TextInput } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 
-const RentalListItem = ({ data }) => {
-  const [searchText, setSearchText] = useState('');
+const RentalListItem = ({ data, navigation }) => {
+  const [searchText, setSearchText] = useState("");
 
   const renderItem = ({ item }) => (
-    
-    <View style={styles.item}>
-      <Image source={{ uri: item.image }} style={styles.image} />
-      <View style={styles.textContainer}>
-      <Text style={styles.title}>{item.title}</Text>
-      <Text style={styles.text}>{item.address}</Text>
-      <Text style={styles.text}>Type: {item.type}</Text>
-      <Text style={styles.text}>Location: {item.location}</Text>
-      <Text style={styles.text}>Price: ${item.price}/month</Text>
-      <Text style={styles.text}>Rooms: {item.rooms}</Text>
-      <Text style={styles.text}>Bathrooms: {item.bathrooms}</Text>
-      <Text style={styles.text}>Min Lease: {item.minLease} months</Text>
-      <Text style={styles.text}>Description: {item.description}</Text>
+    <TouchableOpacity
+      onPress={() => {
+        console.log("Item pressed");
+        navigation.navigate("ItemDescription", {item: item})
+      }}
+    >
+      <View style={styles.item}>
+        <Image source={{ uri: item.image }} style={styles.image} />
+        <View style={styles.textContainer}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.text}>{item.address}</Text>
+          <Text style={styles.text}>Type: {item.type}</Text>
+          <Text style={styles.text}>Location: {item.location}</Text>
+          <Text style={styles.text}>Price: ${item.price}/month</Text>
+          <Text style={styles.text}>Rooms: {item.rooms}</Text>
+          <Text style={styles.text}>Bathrooms: {item.bathrooms}</Text>
+          <Text style={styles.text}>Min Lease: {item.minLease} months</Text>
+          <Text style={styles.text}>Description: {item.description}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 
   const filteredData = data.filter(
-    item =>
-      item.title.toLowerCase().includes(searchText.toLowerCase())
-      || item.address.toLowerCase().includes(searchText.toLowerCase())
+    (item) =>
+      item.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.address.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -50,10 +65,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   image: {
     width: 180,
@@ -65,7 +80,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   text: {

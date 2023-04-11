@@ -2,10 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import RentalList from "./RentalList";
 
-const TestComponent = () => {
+const TestComponent = ({ navigation }) => {
   return (
     <View style={styles.container}>
-      <RentalList />
+      <RentalList navigation={navigation} />
     </View>
   );
 };
@@ -16,6 +16,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 20,
-    backgroundColor: "#fff",
-  }
+    backgroundColor: "#fff",
+  },
 });

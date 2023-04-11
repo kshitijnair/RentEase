@@ -21,7 +21,11 @@ const Profile = () => {
 
   useEffect(() => {
     setuserEmail(auth.currentUser.email);
-    setUserName(auth.currentUser.email.split("@")[0]);
+    if (auth.currentUser.email) {
+      setUserName(auth.currentUser.email.split("@")[0]);
+    } else {
+      setUserName("Anonymous");
+    }
   }, []);
 
   const selectProfileImage = async () => {

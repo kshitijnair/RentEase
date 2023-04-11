@@ -12,6 +12,7 @@ import {
   getUserDetails,
   loginWithEmailAndPassword,
 } from "../firebase/firebaseHelper";
+import {  signInAnonymously } from 'firebase/auth';
 
 const Login = ({ navigation, setUserHasProfile }) => {
   const [userEmail, setUserEmail] = useState("");
@@ -41,6 +42,18 @@ const Login = ({ navigation, setUserHasProfile }) => {
     } else Alert.alert("Please check input fields!");
   };
 
+  const signInAnonymouslyHandler = async () => {
+    try {
+      await signInAnonymously(auth);
+      const user = auth.currentUser;
+      console.log(user);
+      Alert.alert("You are signed in anonymously!");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("There was an error signing in anonymously!");
+    }
+  };
+
   return (
     <SafeAreaView>
       <Text style={styles.banner}>Hi!</Text>
@@ -65,6 +78,7 @@ const Login = ({ navigation, setUserHasProfile }) => {
       />
       <Button title="Sign In" onPress={signInHander} />
       <Button title="Sign Up" onPress={signUpHandler} />
+      <Button title="Sign In Anonymously" onPress={signInAnonymouslyHandler} />
     </SafeAreaView>
   );
 };

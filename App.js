@@ -29,9 +29,10 @@ export default function App() {
         setIsAuthenticated(true);
         setCurrentUser(user);
         if (!user.isAnonymous) {
-          setHasProfile(true);
+          setIsAuthenticated(true);
+          setUserHasProfile(true);
         } else {
-          setHasProfile(false);
+          setUserHasProfile(false);
         }
       } else {
         setIsAuthenticated(false);
@@ -40,7 +41,7 @@ export default function App() {
     });
 
     return unsubscribe;
-  }, []);
+  }, [userHasProfile]);
 
   const Stack = createNativeStackNavigator();
   const AuthStack = (
@@ -89,12 +90,12 @@ export default function App() {
                     }
 
                     setCurrentUser(null);
-                    setHasProfile(false);
+                    setUserHasProfile(false);
                   }
                   await signOut(auth);
 
                   setCurrentUser(null);
-                  setHasProfile(false);
+                  setUserHasProfile(false);
 
                   // Set the state to indicate that the user logged out from an anonymous account
                 } catch (err) {

@@ -1,7 +1,6 @@
 import { StyleSheet, Text, SafeAreaView, Button, FlatList } from "react-native";
 import React, { useState } from "react";
 
-import Comment from "./Comment";
 
 const TempFullView = ({ route, navigation }) => {
   const { item } = route.params;

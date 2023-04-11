@@ -31,15 +31,12 @@ export default function App() {
         if (!user.isAnonymous) {
           setIsAuthenticated(true);
           setUserHasProfile(true);
-        } else {
-          setUserHasProfile(false);
         }
       } else {
         setIsAuthenticated(false);
         setCurrentUser(null);
       }
     });
-
     return unsubscribe;
   }, [userHasProfile]);
 
@@ -88,15 +85,12 @@ export default function App() {
                       console.log("delete");
                       await auth.currentUser.delete();
                     }
-
                     setCurrentUser(null);
                     setUserHasProfile(false);
                   }
                   await signOut(auth);
-
                   setCurrentUser(null);
                   setUserHasProfile(false);
-
                   // Set the state to indicate that the user logged out from an anonymous account
                 } catch (err) {
                   console.log("Error logging out: ", err);

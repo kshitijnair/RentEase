@@ -46,6 +46,7 @@ const Login = ({ navigation, setUserHasProfile }) => {
     try {
       await signInAnonymously(auth);
       const user = auth.currentUser;
+      setUserHasProfile(true);
       console.log(user);
       Alert.alert("You are signed in anonymously!");
     } catch (error) {

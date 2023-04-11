@@ -31,10 +31,26 @@ This application allows users to:
   - Bookmarks tab: Users can bookmark their favorite rentals and access them easily from the bookmarks tab stored separately for each user in database.
 - Camera 
   - Profile Picture:  Users can take a picture of themselves using their device's camera and use it as their profile picture.      This feature makes it easy for users to personalize their profiles and make them more recognizable to other users.
-  
+
+
+ <p float="left"> 
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/0014cf26-1e84-423d-b1df-118c9e3d3031" width="150" height="280">
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/5e14b808-4f5c-4a92-89d7-9de564656813" width="150" height="280">
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/c9c0de5c-23e3-4d00-a6dc-978be6714e93" width="150" height="280">
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/3377d5e4-8d5e-4d6f-84df-24e7ca36abb3" width="150" height="280">
+</p>
+
 ## Features (Kshitij)
 - Authentication: User Login and Signup added. User is asked more details when Signing Up and these are stored in a Firestore Document in the 'Users' Collection.
 - CRUD: User's when signing up and now presented with a Profile Setup Page that takes in user details and stores it on Firestore. For this, the UUID of he Firebase Authentication is used in the 'user' field to make each entry unique and identifiable.
 - Location API: On the Profile Setup Page, users can also locate themselves using the Google Maps Location API that locattes the user with the GPS sensor (after asking permissions)
 - Reverse Geocoding API (External API): This API is used to figure out the Street Location of the user in {Number, Street, Locality, City, Province, Country, Postal Code} format and is used in the 'Location' field of the form for User Details.
 - Comment Modal: A modal is added on the RentalItem page which brings up a form for the user to be able to leave a TextInput for comments and a rating (0-10) for a particular listing. The CRUD for this is not enabled yet- I was running into issues with uniquely identifying the listing, so this is moved to Iteration 3 for now.
+ <p float="left"> 
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/44ebb282-5b58-4fca-86aa-9b3e0fc62982" width="150" height="280">
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/4a268083-e551-44e3-9306-e4a798389f52" width="150" height="280">
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/3df69f5b-1054-4735-aabb-3561f04a7d57" width="150" height="280">
+
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/0028ca7a-3ec0-4cc1-8832-293be34537d9" width="150" height="280">
+
+</p>

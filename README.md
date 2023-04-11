@@ -8,7 +8,7 @@ To run the application on your local machine:
 Ensure that you have a device emulator running or a physical device connected to your computer.
 Run:
 
-npx expo start OR npx expo start --tunnel
+`npx expo start` OR `npx expo start --tunnel`
 
 # First Iteration
 ## Features (Sujit)

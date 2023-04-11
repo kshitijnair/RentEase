@@ -12,6 +12,8 @@ import * as Location from "expo-location";
 import { auth } from "../firebase/firebaseSetup";
 import { addNewUserToFirebase } from "../firebase/firebaseHelper";
 
+import { GOOGLE_MAPS_API } from "@env";
+
 const ProfileSetup = ({ setUserHasProfile }) => {
   const [permissionResponse, requestPermission] =
     Location.useForegroundPermissions();
@@ -21,8 +23,6 @@ const ProfileSetup = ({ setUserHasProfile }) => {
   const [userPhone, setUserPhone] = useState("");
   const [userWork, setUserWork] = useState("");
   const [userLocation, setUserLocation] = useState("");
-
-  const GOOGLE_API = "AIzaSyDweUnep49qg4uqI7lGTIE00gJcDJCpQ0U";
 
   async function verifyPermissions() {
     if (permissionResponse.granted) return true;
@@ -41,7 +41,7 @@ const ProfileSetup = ({ setUserHasProfile }) => {
       if (granted) {
         const location = await Location.getCurrentPositionAsync();
         console.log(location);
-        const reverseGeocodingUri = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GOOGLE_API}`;
+        const reverseGeocodingUri = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.coords.latitude},${location.coords.longitude}&key=${GOOGLE_MAPS_API}`;
         console.log(reverseGeocodingUri);
         const locationDescription = await fetch(reverseGeocodingUri, {
           method: "GET",
@@ -86,8 +86,8 @@ const ProfileSetup = ({ setUserHasProfile }) => {
       };
       console.log("User Details:", userDetails);
       const res = await addNewUserToFirebase(userDetails);
-      if (res) setUserHasProfile(true)
-      else setUserHasProfile(false)
+      if (res) setUserHasProfile(true);
+      else setUserHasProfile(false);
     }
   }
 

@@ -13,16 +13,18 @@ import Login from "./components/Login";
 import Signup from "./components/SignUp";
 import TestComponent from "./components/TestComponent";
 import { auth } from "./firebase/firebaseSetup";
-import Home from './components/Home';
+import Home from "./components/Home";
+import ProfileSetup from "./components/ProfileSetup";
+import TempFullView from "./components/TempFullView";
 
 export default function App() {
-  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userHasProfile, setUserHasProfile] = useState(false);
   const [hasProfile, setHasProfile] = useState(false);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
-      if (user) {
+      if (user && userHasProfile) {
         setIsAuthenticated(true);
       } else {
         setIsAuthenticated(false);
@@ -38,9 +40,11 @@ export default function App() {
           headerShown: true,
         }}
         name="Login"
-        component={Login}
-        initialParams={{ hasProfile: hasProfile }}
-      />
+      >
+        {(props) => (
+          <Login {...props} setUserHasProfile={setUserHasProfile} />
+        )}
+      </Stack.Screen>
       <Stack.Screen
         options={{
           headerShown: true,
@@ -48,6 +52,16 @@ export default function App() {
         name="Signup"
         component={Signup}
       />
+      <Stack.Screen
+        options={{
+          headerShown: true,
+        }}
+        name="ProfileSetup"
+      >
+        {(props) => (
+          <ProfileSetup {...props} setUserHasProfile={setUserHasProfile} />
+        )}
+      </Stack.Screen>
     </>
   );
   const AppStack = (
@@ -57,11 +71,11 @@ export default function App() {
           headerShown: true,
           headerRight: () => (
             <Button
-              onPress={async() => {
+              onPress={async () => {
                 try {
-                  const res = await signOut(auth)
-                } catch(err) {
-                  console.log("Error logging out: ", err)
+                  const res = await signOut(auth);
+                } catch (err) {
+                  console.log("Error logging out: ", err);
                 }
               }}
               title="Logout"
@@ -86,6 +100,7 @@ export default function App() {
         name="RentalDetail"
         component={RentalDetail}
       />
+      <Stack.Screen name="ItemDescription" component={TempFullView} />
     </>
   );
 

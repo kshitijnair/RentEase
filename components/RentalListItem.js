@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, FlatList, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, Image, StyleSheet, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
 import RentalDetail from './RentalDetail';
@@ -7,7 +7,6 @@ import RentalDetail from './RentalDetail';
 const RentalListItem = ({ data, bookmarks, toggleBookmark }) => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState('');
-  
 
   const renderItem = ({ item }) => (
     
@@ -40,9 +39,9 @@ const RentalListItem = ({ data, bookmarks, toggleBookmark }) => {
   );
 
   const filteredData = data.filter(
-    item =>
-      item.title.toLowerCase().includes(searchText.toLowerCase())
-      || item.address.toLowerCase().includes(searchText.toLowerCase())
+    (item) =>
+      item.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.address.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -67,10 +66,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   item: {
-    flexDirection: 'row',
+    flexDirection: "row",
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   image: {
     width: 180,
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 10,
   },
   text: {

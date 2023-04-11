@@ -11,13 +11,13 @@ Run:
 npx expo start OR npx expo start --tunnel
 
 # First Iteration
-## Features(Sujit)
+## Features (Sujit)
 This application allows users to:
 * View a list of apartments.
 * Search for apartments based on their title and address.
 * View a list of apartments that match the search criteria.
 
-## Features(Kshitij)
+## Features (Kshitij)
 * Firebase - CRUD methods are added in an encapsulated manner for Creation of users (Auth + Firestore), Reading of Listings and Users and Deletion of Users
 * Login/Signup - for Users with email and password
 * User details page - Users can delete their profile from here

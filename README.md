@@ -11,13 +11,13 @@ Run:
 npx expo start OR npx expo start --tunnel
 
 # First Iteration
-# Features(Sujit)
+## Features(Sujit)
 This application allows users to:
 * View a list of apartments.
 * Search for apartments based on their title and address.
 * View a list of apartments that match the search criteria.
 
-# Features(Kshitij)
+## Features(Kshitij)
 * Firebase - CRUD methods are added in an encapsulated manner for Creation of users (Auth + Firestore), Reading of Listings and Users and Deletion of Users
 * Login/Signup - for Users with email and password
 * User details page - Users can delete their profile from here
@@ -25,14 +25,14 @@ This application allows users to:
 * Stack Navigation - Between Login and SignUp Page
 
 # Second Iteration 
-# Features  (Sujit)
+## Features  (Sujit)
 - Authentication
   - Anonymous login: The app allows users to log in anonymously without providing any personal information. This feature is       particularly useful for users who want to try out the app before creating an account.
   - Bookmarks tab: Users can bookmark their favorite rentals and access them easily from the bookmarks tab stored separately for each user in database.
 - Camera 
   - Profile Picture:  Users can take a picture of themselves using their device's camera and use it as their profile picture.      This feature makes it easy for users to personalize their profiles and make them more recognizable to other users.
   
-  # Features (Kshitij))
+## Features (Kshitij)
   - CRUD: User's when signing up and now presented with a Profile Setup Page that takes in user details and stores it on Firestore. For this, the UUID of he Firebase Authentication is used in the 'user' field to make each entry unique and identifiable.
   - Location API: On the Profile Setup Page, users can also locate themselves using the Google Maps Location API that locattes the user with the GPS sensor (after asking permissions)
   - Reverse Geotagging API (External API): This API is used to figure out the Street Location of the user in {Number, Street, Locality, City, Province, Country, Postal Code} format and is used in the 'Location' field of the form for User Details.

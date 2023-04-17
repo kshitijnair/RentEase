@@ -28,7 +28,7 @@ const Comment = ({ listingID, modalVisible, setModalVisible }) => {
       comment: comment,
       rating: rating,
     };
-    console.log("Comment is: ", feedback)
+    console.log("Comment is: ", feedback);
     addFeedback(feedback, listingID);
   }
 
@@ -46,7 +46,6 @@ const Comment = ({ listingID, modalVisible, setModalVisible }) => {
         keyboardShouldPersistTaps="handled"
       >
         <Text style={styles.header}>Feedback</Text>
-
         <View style={styles.innerContainer}>
           <View>
             <Text style={styles.label}>Leave a comment</Text>

@@ -10,7 +10,7 @@ const RentalDetail = ({ route }) => {
   const { item } = route.params;
   console.log("Rental Details:", rental)
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [commentModalVisible, setcommentModalVisible] = useState(false);
 
   function bookAppointment() {
     console.log("book appt");
@@ -18,7 +18,7 @@ const RentalDetail = ({ route }) => {
 
   function leaveComment() {
     console.log("Leaving comment");
-    setModalVisible(true);
+    setcommentModalVisible(true);
   }
 
   return (
@@ -56,10 +56,10 @@ const RentalDetail = ({ route }) => {
           <Icon name="info-circle" size={20} color="#ccc" />
           <Text style={styles.info}>{rental.description}</Text>
         </View>
-        {modalVisible ? (
+        {commentModalVisible ? (
           <Comment
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
+            commentModalVisible={commentModalVisible}
+            setcommentModalVisible={setcommentModalVisible}
             listingID={rental.id}
           />
         ) : null}

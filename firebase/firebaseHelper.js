@@ -112,13 +112,30 @@ export async function getUserDetails(userID) {
     }
     i = i + 1;
   });
-  console.log(first)
+  console.log(first);
   return first;
-  // console.log(querySnapshot[0])
-  // return querySnapshot[0].data();
-  // if (querySnapshot){
-  //   console.log(querySnapshot.id, " => ", querySnapshot.data());
-  // } else {
-  //   return 0;
-  // }
+}
+
+export async function addFeedback(feedback, listingID) {
+  try {
+    let today = new Date();
+    const date =
+      String(today.getMonth() + 1).padStart(2, "0") +
+      "/" +
+      String(today.getDate()).padStart(2, "0") +
+      "/" +
+      today.getFullYear();
+    data = {
+      ...feedback,
+      user: auth.currentUser.uid,
+      date: date
+    };
+    console.log(data);
+    const docRef = await addDoc(collection(firestore, "Comments"), data);
+    console.log("Document written with ID: ", docRef.id);
+    return 1;
+  } catch (err) {
+    console.log(err);
+    return -1;
+  }
 }

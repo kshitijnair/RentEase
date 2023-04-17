@@ -8,6 +8,7 @@ const RentalDetail = ({ route }) => {
   const { rental } = route.params;
   console.log(rental);
   const { item } = route.params;
+  console.log("Rental Details:", rental)
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -59,6 +60,7 @@ const RentalDetail = ({ route }) => {
           <Comment
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
+            listingID={rental.id}
           />
         ) : null}
         <Button title="Leave Comment" onPress={leaveComment} />

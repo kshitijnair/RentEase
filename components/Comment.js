@@ -10,6 +10,9 @@ import {
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { addFeedback } from "../firebase/firebaseHelper";
+import { auth } from "../firebase/firebaseSetup";
+
 const Comment = ({ listingID, modalVisible, setModalVisible }) => {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(-1);
@@ -18,6 +21,15 @@ const Comment = ({ listingID, modalVisible, setModalVisible }) => {
     setComment("");
     setRating(-1);
     setModalVisible(false);
+  }
+
+  function submitComment() {
+    const feedback = {
+      comment: comment,
+      rating: rating,
+    };
+    console.log("Comment is: ", feedback)
+    addFeedback(feedback, listingID);
   }
 
   return (
@@ -57,7 +69,7 @@ const Comment = ({ listingID, modalVisible, setModalVisible }) => {
         </View>
         <View style={styles.buttonContainer}>
           <Button title="Cancel" onPress={removeModal} />
-          <Button title="Submit" />
+          <Button title="Submit" onPress={submitComment} />
         </View>
       </ScrollView>
     </Modal>

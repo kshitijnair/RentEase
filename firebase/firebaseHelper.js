@@ -128,7 +128,8 @@ export async function addFeedback(feedback, listingID) {
     data = {
       ...feedback,
       user: auth.currentUser.uid,
-      date: date
+      date: date,
+      listingID: listingID
     };
     console.log(data);
     const docRef = await addDoc(collection(firestore, "Comments"), data);

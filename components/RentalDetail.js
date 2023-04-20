@@ -17,18 +17,18 @@ import { firestore } from "../firebase/firebaseSetup";
 
 const RentalDetail = ({ route }) => {
   const [comments, setComments] = useState([]);
+  const { rental } = route.params;
+  console.log("Rental Details:", rental);
 
   useEffect(() => {
-    console.log(
-      "-------------------------------------------------------------"
-    );
     const commentsQuery = query(collection(firestore, "Comments"));
     const subscribeComments = onSnapshot(commentsQuery, (querySnapshot) => {
       const data = [];
       querySnapshot.forEach((doc) => {
         const commentData = doc.data();
         console.log(commentData);
-        data.push(commentData);
+        console.log(rental.id)
+        if (commentData.listingID === rental.id) data.push(commentData);
       });
       setComments(data);
       console.log("Comments are: ");
@@ -37,10 +37,6 @@ const RentalDetail = ({ route }) => {
 
     return () => subscribeComments();
   }, []);
-
-  const { rental } = route.params;
-  // console.log(rental);
-  // console.log("Rental Details:", rental);
 
   const [commentModalVisible, setcommentModalVisible] = useState(false);
   const [bookingModalVisible, setbookingModalVisible] = useState(false);
@@ -125,7 +121,7 @@ const RentalDetail = ({ route }) => {
         ) : null}
         <Button title="Leave Comment" onPress={leaveComment} />
         <Button title="Book Appointment" onPress={bookAppointment} />
-        <View style={{height: 100}}></View>
+        <View style={{ height: 100 }}></View>
       </ScrollView>
     </View>
   );
@@ -159,7 +155,7 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   commentContainer: {
-    marginBottom: 20
+    marginBottom: 20,
   },
   commentHeaderContainer: {
     alignItems: "center",
@@ -176,7 +172,7 @@ const styles = StyleSheet.create({
     borderLeftColor: "rgb(230, 230, 230)",
     borderLeftWidth: 5,
     marginBottom: 10,
-    paddingLeft: 5
+    paddingLeft: 5,
   },
   comment: {
     fontSize: 16,

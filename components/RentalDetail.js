@@ -1,5 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, StyleSheet, Button, FlatList, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  FlatList,
+  ScrollView,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { collection, query, onSnapshot, where } from "firebase/firestore";
 
@@ -82,8 +90,17 @@ const RentalDetail = ({ route }) => {
           <Icon name="info-circle" size={20} color="#ccc" />
           <Text style={styles.info}>{rental.description}</Text>
         </View>
-        <View>
-          {comments.map((item) => <Text key={item.user}>{item.comment}</Text>)}
+        <View style={styles.commentContainer}>
+          <View style={styles.commentHeaderContainer}>
+            <Text style={styles.commentHeader}>Comments</Text>
+          </View>
+          {comments.map((item) => (
+            <View style={styles.commentWrapper}>
+              <Text key={item.comment} style={styles.comment}>
+                {item.comment}
+              </Text>
+            </View>
+          ))}
           {/* <FlatList
             data={comments}
             renderItem={({ item }) => {
@@ -108,6 +125,7 @@ const RentalDetail = ({ route }) => {
         ) : null}
         <Button title="Leave Comment" onPress={leaveComment} />
         <Button title="Book Appointment" onPress={bookAppointment} />
+        <View style={{height: 100}}></View>
       </ScrollView>
     </View>
   );
@@ -139,6 +157,29 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 16,
     marginLeft: 10,
+  },
+  commentContainer: {
+    marginBottom: 20
+  },
+  commentHeaderContainer: {
+    alignItems: "center",
+    margin: 10,
+    marginTop: 20,
+    paddingBottom: 5,
+    borderBottomColor: "rgb(230, 230, 230)",
+    borderBottomWidth: 2,
+  },
+  commentHeader: {
+    fontSize: 20,
+  },
+  commentWrapper: {
+    borderLeftColor: "rgb(230, 230, 230)",
+    borderLeftWidth: 5,
+    marginBottom: 10,
+    paddingLeft: 5
+  },
+  comment: {
+    fontSize: 16,
   },
 });
 

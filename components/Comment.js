@@ -13,14 +13,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { addFeedback } from "../firebase/firebaseHelper";
 import { auth } from "../firebase/firebaseSetup";
 
-const Comment = ({ listingID, modalVisible, setModalVisible }) => {
+const Comment = ({ listingID, modalVisible, setcommentModalVisible }) => {
   const [comment, setComment] = useState("");
   const [rating, setRating] = useState(-1);
 
   function removeModal() {
+    console.log("qujwrhgf;iuqerwgh;iuqerohgqoie;rhgaoweirthgqewaoith")
     setComment("");
     setRating(-1);
-    setModalVisible(false);
+    setcommentModalVisible(false);
   }
 
   function submitComment() {

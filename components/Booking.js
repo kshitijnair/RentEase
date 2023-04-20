@@ -63,6 +63,7 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
         listingID
       );
       Alert.alert("Booking for: ", pickedDateTimeString);
+      setbookingModalVisible(false);
     } else Alert.alert("No date was selected!");
   };
 
@@ -73,7 +74,9 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
         <View style={styles.dateView}>
           <Pressable style={styles.dateButton} onPress={showDatePicker}>
             <Text style={styles.dateText}>
-              {pickedDateTime.toString().slice(0, 21)}
+              {datePicked
+                ? pickedDateTime.toString().slice(0, 21)
+                : pickedDateTimeString}
             </Text>
           </Pressable>
         </View>

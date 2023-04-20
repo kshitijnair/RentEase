@@ -139,3 +139,21 @@ export async function addFeedback(feedback, listingID) {
     return -1;
   }
 }
+
+export async function makeBooking(dateTime, bookingNotes, listingID) {
+  try {
+    data = {
+      user: auth.currentUser.uid,
+      listingID: listingID,
+      time: dateTime,
+      notes: bookingNotes
+    };
+    console.log(data);
+    const docRef = await addDoc(collection(firestore, "Appointments"), data);
+    console.log("Document written with ID: ", docRef.id);
+    return 1;
+  } catch (err) {
+    console.log(err);
+    return -1;
+  }
+}

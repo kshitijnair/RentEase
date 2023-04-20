@@ -3,17 +3,20 @@ import { View, Text, Image, StyleSheet, Button } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 import Comment from "./Comment";
+import Booking from "./Booking";
 
 const RentalDetail = ({ route }) => {
   const { rental } = route.params;
   console.log(rental);
   const { item } = route.params;
-  console.log("Rental Details:", rental)
+  console.log("Rental Details:", rental);
 
   const [commentModalVisible, setcommentModalVisible] = useState(false);
+  const [bookingModalVisible, setbookingModalVisible] = useState(false);
 
   function bookAppointment() {
     console.log("book appt");
+    setbookingModalVisible(true);
   }
 
   function leaveComment() {
@@ -60,6 +63,13 @@ const RentalDetail = ({ route }) => {
           <Comment
             commentModalVisible={commentModalVisible}
             setcommentModalVisible={setcommentModalVisible}
+            listingID={rental.id}
+          />
+        ) : null}
+        {bookingModalVisible ? (
+          <Booking
+            bookingModalVisible={bookingModalVisible}
+            setbookingModalVisible={setbookingModalVisible}
             listingID={rental.id}
           />
         ) : null}

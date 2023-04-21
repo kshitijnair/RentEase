@@ -26,6 +26,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { auth, storage, firestore } from "../firebase/firebaseSetup";
 import { deleteUser } from "firebase/auth";
 import * as ImagePicker from "expo-image-picker";
+import BookingItem from "./BookingItem";
 
 const Profile = () => {
   const [userEmail, setuserEmail] = useState("");
@@ -150,23 +151,27 @@ const Profile = () => {
 
   return (
     <SafeAreaView>
-      <Text style={styles.nameText}>Email: {userEmail}</Text>
-      <Text style={styles.nameText}>Name: {userName}</Text>
-      {renderProfileImage()}
-      <Text>Bookings</Text>
-      <View>
-        <FlatList
-          data={bookings}
-          renderItem={({ item }) => {
-            if (item.user === auth.currentUser.uid)
-            return <Text>{item.notes}</Text>;
-          }}
-          keyExtractor={(item) => item.listingID}
-        />
+      <View style={styles.}>{renderProfileImage()}</View>
+      <View style={styles.container}>
+        <Text style={styles.nameText}>Email: {userEmail}</Text>
+        <Text style={styles.nameText}>Name: {userName}</Text>
+        <View style={styles.bookingHeaderContainer}>
+          <Text style={styles.bookingHeader}>Bookings</Text>
+        </View>
+        <View>
+          <FlatList
+            data={bookings}
+            renderItem={({ item }) => {
+              if (item.user === auth.currentUser.uid)
+                return <BookingItem booking={item} />;
+            }}
+            keyExtractor={(item) => item.listingID}
+          />
+        </View>
+        <TouchableOpacity style={styles.deleteButton} onPress={onDeleteUser}>
+          <Text style={styles.deleteButtonText}>Delete Profile</Text>
+        </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.deleteButton} onPress={onDeleteUser}>
-        <Text style={styles.deleteButtonText}>Delete Profile</Text>
-      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -192,8 +197,8 @@ const styles = StyleSheet.create({
     height: 50,
   },
   nameText: {
-    marginTop: 16,
-    marginBottom: 16,
+    // marginTop: 16,
+    marginBottom: 5,
   },
   deleteButton: {
     backgroundColor: "red",
@@ -207,14 +212,30 @@ const styles = StyleSheet.create({
   },
   editButton: {
     marginTop: 10,
-    backgroundColor: "blue",
+    backgroundColor: "pink",
     borderRadius: 8,
     padding: 12,
     alignItems: "center",
+    width: 200,
   },
   editButtonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  bookingHeaderContainer: {
+    alignItems: "center",
+    margin: 10,
+    marginTop: 20,
+    paddingBottom: 5,
+    borderBottomColor: "rgb(230, 230, 230)",
+    borderBottomWidth: 2,
+  },
+  bookingHeader: {
+    fontSize: 20,
+  },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 

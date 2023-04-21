@@ -27,7 +27,7 @@ const RentalDetail = ({ route }) => {
       querySnapshot.forEach((doc) => {
         const commentData = doc.data();
         console.log(commentData);
-        console.log(rental.id)
+        console.log(rental.id);
         if (commentData.listingID === rental.id) data.push(commentData);
       });
       setComments(data);
@@ -97,13 +97,6 @@ const RentalDetail = ({ route }) => {
               </Text>
             </View>
           ))}
-          {/* <FlatList
-            data={comments}
-            renderItem={({ item }) => {
-              
-            }}
-            keyExtractor={(item) => item.listingID}
-          /> */}
         </View>
         {commentModalVisible ? (
           <Comment

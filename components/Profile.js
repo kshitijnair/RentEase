@@ -151,7 +151,7 @@ const Profile = () => {
 
   return (
     <SafeAreaView>
-      <View style={styles.}>{renderProfileImage()}</View>
+      <View >{renderProfileImage()}</View>
       <View style={styles.container}>
         <Text style={styles.nameText}>Email: {userEmail}</Text>
         <Text style={styles.nameText}>Name: {userName}</Text>

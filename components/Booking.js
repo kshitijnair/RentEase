@@ -9,10 +9,19 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { makeBooking } from "../firebase/firebaseHelper";
+import * as Notifications from "expo-notifications";
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
 
 const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -21,6 +30,56 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
     useState("Select Date");
   const [datePicked, setDatePicked] = useState(false);
   const [bookingNotes, setBookingNotes] = useState("");
+  useEffect(() => {
+    const notificationListener = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log('Notification received:', notification);
+      }
+    );
+
+    const responseListener = Notifications.addNotificationResponseReceivedListener(
+      (response) => {
+        console.log('Notification response received:', response);
+      }
+    );
+
+    return () => {
+      notificationListener.remove();
+      responseListener.remove();
+    };
+  }, []);
+
+  const requestNotificationPermission = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== 'granted') {
+      alert('No notification permissions granted!');
+      return false;
+    }
+    return true;
+  };
+
+  const scheduleNotification = async (dateTime) => {
+    const hasPermission = await requestNotificationPermission();
+    if (!hasPermission) return;
+  
+    const appointmentDate = dateTime;
+    const currentDate = new Date();
+    const secondsToAppointment = (appointmentDate - currentDate) / 1000;
+    const secondsEarlier = 5 ; // 5 minutes in seconds
+  
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: 'Your appointment is coming up!',
+        body: `Your appointment is scheduled for ${pickedDateTimeString}`, // Use pickedDateTimeString for display purposes
+      },
+      trigger: {
+        seconds: (secondsToAppointment - secondsEarlier) > 0 ? (secondsToAppointment - secondsEarlier) : 1, // Schedule for 5 minutes earlier, or 1 second later if the time is in the past
+      },
+    });
+  };
+  
+  
+  
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -29,6 +88,7 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
   const hideDatePicker = () => {
     setDatePickerVisibility(false);
   };
+  
 
   const handleConfirm = (date) => {
     console.log("A date has been picked: ", date);
@@ -63,9 +123,11 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
         listingID
       );
       Alert.alert("Booking for: ", pickedDateTimeString);
+      scheduleNotification(pickedDateTime); // Pass pickedDateTime instead of pickedDateTimeString
       setbookingModalVisible(false);
     } else Alert.alert("No date was selected!");
   };
+  
 
   return (
     <Modal animationType="slide" visible={modalVisible}>

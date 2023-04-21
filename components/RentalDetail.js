@@ -92,7 +92,8 @@ const RentalDetail = ({ route }) => {
           </View>
           {comments.map((item) => (
             <View style={styles.commentWrapper}>
-              <Text key={item.comment} style={styles.comment}>
+              <Text>{item.rating}/5</Text>
+              <Text key={item.userID} style={styles.comment}>
                 {item.comment}
               </Text>
             </View>
@@ -110,6 +111,7 @@ const RentalDetail = ({ route }) => {
             bookingModalVisible={bookingModalVisible}
             setbookingModalVisible={setbookingModalVisible}
             listingID={rental.id}
+            rental={rental}
           />
         ) : null}
         <Button title="Leave Comment" onPress={leaveComment} />

@@ -3,26 +3,13 @@ import {
   StyleSheet,
   Text,
   SafeAreaView,
-  TextInput,
-  Button,
   Image,
   TouchableOpacity,
   View,
   FlatList,
 } from "react-native";
-import {
-  collection,
-  query,
-  addDoc,
-  onSnapshot,
-  where,
-  doc,
-  setDoc,
-  arrayUnion,
-  arrayRemove,
-  getDocs,
-} from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { collection, query, onSnapshot, where } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { auth, storage, firestore } from "../firebase/firebaseSetup";
 import { deleteUser } from "firebase/auth";
 import * as ImagePicker from "expo-image-picker";
@@ -48,8 +35,9 @@ const Profile = () => {
     const subscribeBookings = onSnapshot(bookingsQuery, (querySnapshot) => {
       const bookings = [];
       querySnapshot.forEach((doc) => {
-        const bookingsData = doc.data();
-        console.log(bookingsData);
+        let bookingsData = doc.data();
+        // console.log(doc.id);
+        bookingsData.id = doc.id;
         // const listingID = bookingsData.listingID || [];
         // bookings.push(...listingID);
         bookings.push(bookingsData);
@@ -103,13 +91,15 @@ const Profile = () => {
     if (profileImage) {
       return (
         <>
-          <Image source={{ uri: profileImage }} style={styles.profileImage} />
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={selectProfileImage}
-          >
-            <Text style={styles.editButtonText}>Edit Profile Picture</Text>
-          </TouchableOpacity>
+          <View style={styles.profileView}>
+            <Image source={{ uri: profileImage }} style={styles.profileImage} />
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={selectProfileImage}
+            >
+              <Text style={styles.editButtonText}>Edit Profile Picture</Text>
+            </TouchableOpacity>
+          </View>
         </>
       );
     } else {
@@ -151,10 +141,10 @@ const Profile = () => {
 
   return (
     <SafeAreaView>
-      <View >{renderProfileImage()}</View>
+      <View style={styles.profileContainer}>{renderProfileImage()}</View>
       <View style={styles.container}>
-        <Text style={styles.nameText}>Email: {userEmail}</Text>
-        <Text style={styles.nameText}>Name: {userName}</Text>
+        <Text style={styles.nameText}>{userName}</Text>
+        <Text style={styles.nameText}>{userEmail}</Text>
         <View style={styles.bookingHeaderContainer}>
           <Text style={styles.bookingHeader}>Bookings</Text>
         </View>
@@ -177,10 +167,16 @@ const Profile = () => {
 };
 
 const styles = StyleSheet.create({
+  profileView: {
+    alignItems: "center",
+  },
+  profileContainer: {
+    // flex: 1,
+  },
   profileImage: {
     width: 200,
     height: 200,
-    borderRadius: 50,
+    borderRadius: 100,
     alignSelf: "center",
   },
   cameraIconContainer: {
@@ -199,6 +195,7 @@ const styles = StyleSheet.create({
   nameText: {
     // marginTop: 16,
     marginBottom: 5,
+    fontSize: 18,
   },
   deleteButton: {
     backgroundColor: "red",
@@ -236,6 +233,7 @@ const styles = StyleSheet.create({
   container: {
     justifyContent: "center",
     alignItems: "center",
+    marginTop: 100,
   },
 });
 

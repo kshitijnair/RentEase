@@ -1,13 +1,11 @@
 import {
   collection,
   addDoc,
-  doc,
-  deleteDo,
-  db,
+  deleteDoc,
   where,
   query,
-  getDoc,
   getDocs,
+  doc
 } from "firebase/firestore";
 import { firestore, auth } from "./firebaseSetup";
 import {
@@ -141,11 +139,12 @@ export async function addFeedback(feedback, listingID) {
   }
 }
 
-export async function makeBooking(dateTime, bookingNotes, listingID) {
+export async function makeBooking(dateTime, bookingNotes, rental) {
   try {
     data = {
       user: auth.currentUser.uid,
-      listingID: listingID,
+      listingID: rental.id,
+      address: rental.address,
       time: dateTime,
       notes: bookingNotes
     };
@@ -156,5 +155,14 @@ export async function makeBooking(dateTime, bookingNotes, listingID) {
   } catch (err) {
     console.log(err);
     return -1;
+  }
+}
+
+export async function deleteBooking(id) {
+  try {
+    await deleteDoc(doc(firestore, "Appointments", id))
+    console.log("id deleted, check FS")
+  } catch (err) {
+    console.log("Error encountered with deleting from database: ", err);
   }
 }

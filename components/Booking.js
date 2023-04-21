@@ -14,13 +14,16 @@ import React, { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { makeBooking } from "../firebase/firebaseHelper";
 
-const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
+const Booking = ({ modalVisible, setbookingModalVisible, listingID, rental }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [pickedDateTime, setPickedDateTime] = useState(null);
   const [pickedDateTimeString, setPickedDateTimeString] =
     useState("Select Date");
   const [datePicked, setDatePicked] = useState(false);
   const [bookingNotes, setBookingNotes] = useState("");
+
+  console.log("in BOOKINGS:-----------------------------")
+  console.log(rental)
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -47,7 +50,6 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
     minutes = minutes < 10 ? "0" + minutes : minutes;
     const dateTime =
       date.toString().slice(0, 16) + hours + ":" + minutes + " " + newformat;
-    // console.log("----------------------", dateTime);
     setPickedDateTimeString(dateTime);
     console.log(dateTime);
   };
@@ -60,7 +62,7 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
       const res = await makeBooking(
         pickedDateTimeString,
         bookingNotes,
-        listingID
+        rental
       );
       Alert.alert("Booking for: ", pickedDateTimeString);
       setbookingModalVisible(false);

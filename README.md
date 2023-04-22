@@ -64,6 +64,7 @@ This application allows users to:
 <img src="https://media.github.khoury.northeastern.edu/user/14110/files/63ae4daa-ebc4-4310-ae86-7da6637385cd" width="150" height="280">
 <img src="https://media.github.khoury.northeastern.edu/user/14110/files/23627aea-c74e-42c7-8b9b-9fdda5dbb99e" width="150" height="280">
 </p>
+
 ## Features (Kshitij)
 - Added Comments
   - User can now add comments to each listing with a review text and rating (0-5)

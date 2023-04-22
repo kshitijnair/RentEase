@@ -7,6 +7,7 @@ import {
   Button,
   FlatList,
   ScrollView,
+  Pressable,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { collection, query, onSnapshot, where } from "firebase/firestore";
@@ -114,8 +115,16 @@ const RentalDetail = ({ route }) => {
             rental={rental}
           />
         ) : null}
-        <Button title="Leave Comment" onPress={leaveComment} />
-        <Button title="Book Appointment" onPress={bookAppointment} />
+        <View style={styles.buttonsContainer}>
+          <Pressable style={styles.bookingButton} onPress={leaveComment}>
+            <Text style={styles.buttonText}>Add Comment</Text>
+          </Pressable>
+          <Pressable style={styles.bookingButton} onPress={bookAppointment}>
+            <Text style={styles.buttonText}>Book Viewing</Text>
+          </Pressable>
+        </View>
+        {/* <Button title="Leave Comment" onPress={leaveComment} />
+        <Button title="Book Appointment" onPress={bookAppointment} /> */}
         <View style={{ height: 100 }}></View>
       </ScrollView>
     </View>
@@ -171,6 +180,27 @@ const styles = StyleSheet.create({
   },
   comment: {
     fontSize: 16,
+  },
+  buttonsContainer: {
+    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  bookingButton: {
+    backgroundColor: "#007aff",
+    padding: 12,
+    borderRadius: 12,
+  },
+  buttonText: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 16,
+  },
+  cancelButtonText: {
+    color: "#ff3b30",
+    alignSelf: "center",
+    fontSize: 18,
+    fontWeight: 400,
   },
 });
 

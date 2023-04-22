@@ -7,6 +7,7 @@ import {
   Alert,
   Image,
   View,
+  Pressable,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -68,15 +69,10 @@ const Login = ({ navigation, setUserHasProfile }) => {
       >
         <Image source={require("../assets/logo.png")} style={styles.logo} />
       </View>
-      <View style={{ flex: 1}}>
+      <View style={{ flex: 1 }}>
         <Text style={styles.banner}>Welcome to your new house!</Text>
       </View>
-      <View
-        style={[
-          styles.inputContainer,
-          { flex: 1.5 },
-        ]}
-      >
+      <View style={[styles.inputContainer, { flex: 1.5 }]}>
         <TextInput
           style={styles.inputField}
           value={userEmail}
@@ -97,14 +93,25 @@ const Login = ({ navigation, setUserHasProfile }) => {
           }}
         />
       </View>
-      <View style={{ flex: 2 }}>
+      <View style={styles.buttonsContainer}>
+        <Pressable style={styles.signInButton} onPress={signInHander}>
+          <Text style={[styles.buttonText, styles.signInText]}>Sign In</Text>
+        </Pressable>
+        <Pressable style={styles.signUpButton} onPress={signUpHandler}>
+          <Text style={[styles.buttonText, styles.signUpText]}>Sign Up</Text>
+        </Pressable>
+        <Pressable
+          style={styles.bookingButton}
+          onPress={signInAnonymouslyHandler}
+        >
+          <Text style={styles.signInButtonText}>Sign In Anonymously</Text>
+        </Pressable>
+      </View>
+      {/* <View style={{ flex: 2 }}>
         <Button title="Sign In" onPress={signInHander} />
         <Button title="Sign Up" onPress={signUpHandler} />
-        <Button
-          title="Sign In Anonymously"
-          onPress={signInAnonymouslyHandler}
-        />
-      </View>
+        <Button title="Sign In Anonymously" onPress={signUpHandler} />
+      </View> */}
     </SafeAreaView>
   );
 };
@@ -129,16 +136,57 @@ const styles = StyleSheet.create({
     fontSize: 32,
     width: 225,
     justifyContent: "space-evenly",
-    paddingBottom: 5
+    paddingBottom: 5,
   },
   inputContainer: {
     width: 220,
     height: 100,
   },
   inputField: {
-    backgroundColor: 'rgba(0,0,0,0.1)',
+    backgroundColor: "rgba(0,0,0,0.1)",
     borderRadius: 15,
     padding: 15,
     marginTop: 10,
-  }
+  },
+  buttonsContainer: {
+    flex: 2,
+    alignItems: "center",
+    marginTop: 50,
+    justifyContent: "flex-start",
+  },
+  bookingButton: {
+    // backgroundColor: "#007aff",
+    padding: 12,
+    borderRadius: 12,
+  },
+  signInButton: {
+    backgroundColor: "#007aff",
+    padding: 12,
+    borderRadius: 12,
+    marginBottom: 10,
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
+  signUpButton: {
+    backgroundColor: "#32ade6",
+    padding: 12,
+    borderRadius: 12,
+  },
+  signInText: {
+    fontSize: 20,
+  },
+  signUpText: {
+    fontSize: 16,
+  },
+  buttonText: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 20,
+  },
+  signInButtonText: {
+    color: "#007aff",
+    alignSelf: "center",
+    fontSize: 18,
+    fontWeight: 400,
+  },
 });

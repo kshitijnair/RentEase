@@ -58,7 +58,7 @@ This application allows users to:
 # Third Iteration 
 ## Features  (Sujit)
 - Notification
- - To ensure that users don't forget about their scheduled home appointments, a reminder notification will be sent to them prior to the appointment time. For testing, a reminder notification will be sent to users 30 seconds prior to their scheduled home appointment. However, in practice,  the notification be sent at least 30 minutes before the appointment time. This will provide users with enough time to prepare and make any necessary arrangements before the scheduled appointment.
+   - To ensure that users don't forget about their scheduled home appointments, a reminder notification will be sent to them        prior to the appointment time. For testing, a reminder notification will be sent to users 30 seconds prior to their            scheduled home appointment. However, in practice,  the notification be sent at least 30 minutes before the appointment        time. This will provide users with enough time to prepare and make any necessary arrangements before the scheduled            appointment.
  <p float="left"> 
 <img src="https://media.github.khoury.northeastern.edu/user/14110/files/8ad6aaee-e103-4a52-9928-cf9308790ade" width="150" height="280">
 <img src="https://media.github.khoury.northeastern.edu/user/14110/files/63ae4daa-ebc4-4310-ae86-7da6637385cd" width="150" height="280">
@@ -75,3 +75,16 @@ This application allows users to:
   - User has the ability to cancel a booking from their profile as well.
 - Design
   - App was designed from last iteration to look more aesthetic. More design changes will be made before the presentation.
+
+ <p float="left"> 
+
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/78ccf118-f8c2-4c8d-bdbb-ecff7b1f98b0" width="150" height="280">
+  <img src="https://media.github.khoury.northeastern.edu/user/14110/files/ca9302d6-ab66-4af5-956b-62f7356d8484" width="150" height="280">
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/6415b466-2cdc-42b8-bcb5-011bc4ffb5a7" width="150" height="280">
+    <img src="https://media.github.khoury.northeastern.edu/user/14110/files/8e98fdaa-c909-4362-8a4c-89b3c35f7f18" width="150" height="280">
+  <img src="https://media.github.khoury.northeastern.edu/user/14110/files/77de5b03-ecac-4ce8-851b-bfef1deb4b45" width="150" height="280">
+  <img src="https://media.github.khoury.northeastern.edu/user/14110/files/ffc82288-6b63-41ae-bb52-9de17fb149d7" width="150" height="280">
+</p>
+
+
+

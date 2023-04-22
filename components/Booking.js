@@ -158,6 +158,7 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID }) => {
           display="inline"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
+          minimumDate={new Date()}
         />
       </SafeAreaView>
     </Modal>

@@ -1,29 +1,61 @@
-import React, { useState } from "react";
-import { View, Text, Image, StyleSheet, Button } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Button,
+  FlatList,
+  ScrollView,
+  Pressable,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { collection, query, onSnapshot, where } from "firebase/firestore";
 
 import Comment from "./Comment";
+import Booking from "./Booking";
+import { firestore } from "../firebase/firebaseSetup";
 
 const RentalDetail = ({ route }) => {
+  const [comments, setComments] = useState([]);
   const { rental } = route.params;
-  console.log(rental);
-  const { item } = route.params;
+  console.log("Rental Details:", rental);
 
-  const [modalVisible, setModalVisible] = useState(false);
+  useEffect(() => {
+    const commentsQuery = query(collection(firestore, "Comments"));
+    const subscribeComments = onSnapshot(commentsQuery, (querySnapshot) => {
+      const data = [];
+      querySnapshot.forEach((doc) => {
+        const commentData = doc.data();
+        console.log(commentData);
+        console.log(rental.id);
+        if (commentData.listingID === rental.id) data.push(commentData);
+      });
+      setComments(data);
+      console.log("Comments are: ");
+      console.log(comments);
+    });
+
+    return () => subscribeComments();
+  }, []);
+
+  const [commentModalVisible, setcommentModalVisible] = useState(false);
+  const [bookingModalVisible, setbookingModalVisible] = useState(false);
 
   function bookAppointment() {
     console.log("book appt");
+    setbookingModalVisible(true);
   }
 
   function leaveComment() {
     console.log("Leaving comment");
-    setModalVisible(true);
+    setcommentModalVisible(true);
   }
 
   return (
     <View style={styles.container}>
       <Image source={{ uri: rental.image }} style={styles.image} />
-      <View style={styles.textContainer}>
+      <ScrollView style={styles.textContainer}>
         <Text style={styles.title}>{rental?.title}</Text>
         <View style={styles.infoContainer}>
           <Icon name="map-marker" size={20} color="#ccc" />
@@ -55,15 +87,46 @@ const RentalDetail = ({ route }) => {
           <Icon name="info-circle" size={20} color="#ccc" />
           <Text style={styles.info}>{rental.description}</Text>
         </View>
-        {modalVisible ? (
+        <View style={styles.commentContainer}>
+          <View style={styles.commentHeaderContainer}>
+            <Text style={styles.commentHeader}>Comments</Text>
+          </View>
+          {comments.map((item) => (
+            <View style={styles.commentWrapper}>
+              <Text>{item.rating}/5</Text>
+              <Text key={item.userID} style={styles.comment}>
+                {item.comment}
+              </Text>
+            </View>
+          ))}
+        </View>
+        {commentModalVisible ? (
           <Comment
-            modalVisible={modalVisible}
-            setModalVisible={setModalVisible}
+            commentModalVisible={commentModalVisible}
+            setcommentModalVisible={setcommentModalVisible}
+            listingID={rental.id}
           />
         ) : null}
-        <Button title="Leave Comment" onPress={leaveComment} />
-        <Button title="Book Appointment" onPress={bookAppointment} />
-      </View>
+        {bookingModalVisible ? (
+          <Booking
+            bookingModalVisible={bookingModalVisible}
+            setbookingModalVisible={setbookingModalVisible}
+            listingID={rental.id}
+            rental={rental}
+          />
+        ) : null}
+        <View style={styles.buttonsContainer}>
+          <Pressable style={styles.bookingButton} onPress={leaveComment}>
+            <Text style={styles.buttonText}>Add Comment</Text>
+          </Pressable>
+          <Pressable style={styles.bookingButton} onPress={bookAppointment}>
+            <Text style={styles.buttonText}>Book Viewing</Text>
+          </Pressable>
+        </View>
+        {/* <Button title="Leave Comment" onPress={leaveComment} />
+        <Button title="Book Appointment" onPress={bookAppointment} /> */}
+        <View style={{ height: 100 }}></View>
+      </ScrollView>
     </View>
   );
 };
@@ -94,6 +157,50 @@ const styles = StyleSheet.create({
   info: {
     fontSize: 16,
     marginLeft: 10,
+  },
+  commentContainer: {
+    marginBottom: 20,
+  },
+  commentHeaderContainer: {
+    alignItems: "center",
+    margin: 10,
+    marginTop: 20,
+    paddingBottom: 5,
+    borderBottomColor: "rgb(230, 230, 230)",
+    borderBottomWidth: 2,
+  },
+  commentHeader: {
+    fontSize: 20,
+  },
+  commentWrapper: {
+    borderLeftColor: "rgb(230, 230, 230)",
+    borderLeftWidth: 5,
+    marginBottom: 10,
+    paddingLeft: 5,
+  },
+  comment: {
+    fontSize: 16,
+  },
+  buttonsContainer: {
+    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-around'
+  },
+  bookingButton: {
+    backgroundColor: "#007aff",
+    padding: 12,
+    borderRadius: 12,
+  },
+  buttonText: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 16,
+  },
+  cancelButtonText: {
+    color: "#ff3b30",
+    alignSelf: "center",
+    fontSize: 18,
+    fontWeight: 400,
   },
 });
 

@@ -3,36 +3,58 @@ import {
   StyleSheet,
   Text,
   SafeAreaView,
-  TextInput,
-  Button,
   Image,
   TouchableOpacity,
+  View,
+  FlatList,
 } from "react-native";
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { auth, storage } from "../firebase/firebaseSetup";
+import { collection, query, onSnapshot, where } from "firebase/firestore";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { auth, storage, firestore } from "../firebase/firebaseSetup";
 import { deleteUser } from "firebase/auth";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
+import BookingItem from "./BookingItem";
 
 const Profile = () => {
   const [userEmail, setuserEmail] = useState("");
   const [userName, setUserName] = useState("");
   const [userAge, setUserAge] = useState(0);
   const [profileImage, setProfileImage] = useState(null);
+  const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
     setuserEmail(auth.currentUser.email);
-    if (auth.currentUser.email) {
+    if (auth.currentUser.email)
       setUserName(auth.currentUser.email.split("@")[0]);
-    } else {
-      setUserName("Anonymous");
-    }
+    else setUserName("Anonymous");
+
+    const userId = auth.currentUser.uid;
+    const bookingsRef = collection(firestore, "Appointments");
+    const bookingsQuery = query(bookingsRef, where("user", "==", userId));
+
+    const subscribeBookings = onSnapshot(bookingsQuery, (querySnapshot) => {
+      const bookings = [];
+      querySnapshot.forEach((doc) => {
+        let bookingsData = doc.data();
+        // console.log(doc.id);
+        bookingsData.id = doc.id;
+        // const listingID = bookingsData.listingID || [];
+        // bookings.push(...listingID);
+        bookings.push(bookingsData);
+        setBookings(bookings);
+      });
+      console.log("Bookings are: ");
+      console.log(bookings);
+    });
+
+    return () => subscribeBookings();
   }, []);
 
   const selectProfileImage = async () => {
     const { status } = await ImagePicker.requestCameraPermissionsAsync();
 
-    if (status !== 'granted') {
-      alert('Permission to access media library is required');
+    if (status !== "granted") {
+      alert("Permission to access media library is required");
       return;
     }
 
@@ -45,7 +67,10 @@ const Profile = () => {
 
     if (!result.canceled && result.assets) {
       try {
-        const imageRef = ref(storage, `profileImages/${auth.currentUser.uid}.jpg`);
+        const imageRef = ref(
+          storage,
+          `profileImages/${auth.currentUser.uid}.jpg`
+        );
         const response = await fetch(result.assets[0].uri);
         const blob = await response.blob();
 
@@ -66,14 +91,22 @@ const Profile = () => {
     if (profileImage) {
       return (
         <>
-          <Image source={{ uri: profileImage }} style={styles.profileImage} />
-          <TouchableOpacity style={styles.editButton} onPress={selectProfileImage}>
-            <Text style={styles.editButtonText}>Edit Profile Picture</Text>
-          </TouchableOpacity>
+          <View style={styles.profileView}>
+            <Image source={{ uri: profileImage }} style={styles.profileImage} />
+            <TouchableOpacity
+              style={styles.editButton}
+              onPress={selectProfileImage}
+            >
+              <Text style={styles.editButtonText}>Edit Profile Picture</Text>
+            </TouchableOpacity>
+          </View>
         </>
       );
     } else {
-      const imageRef = ref(storage, `profileImages/${auth.currentUser.uid}.jpg`);
+      const imageRef = ref(
+        storage,
+        `profileImages/${auth.currentUser.uid}.jpg`
+      );
       getDownloadURL(imageRef)
         .then((url) => {
           setProfileImage(url);
@@ -81,15 +114,20 @@ const Profile = () => {
         .catch((error) => {
           console.log("Error fetching profile image URL: ", error);
         });
-  
+
       return (
-        <TouchableOpacity style={styles.cameraIconContainer} onPress={selectProfileImage}>
-          <Image source={require('../assets/camera.png')} style={styles.cameraIcon} />
+        <TouchableOpacity
+          style={styles.cameraIconContainer}
+          onPress={selectProfileImage}
+        >
+          <Image
+            source={require("../assets/camera.png")}
+            style={styles.cameraIcon}
+          />
         </TouchableOpacity>
       );
     }
   };
-  
 
   const onDeleteUser = async () => {
     deleteUser(auth.currentUser)
@@ -101,31 +139,44 @@ const Profile = () => {
       });
   };
 
-
-
-
   return (
     <SafeAreaView>
-      <Text  style={styles.nameText} >Email: {userEmail}</Text>
-      <Text  style={styles.nameText} >Name: {userName}</Text>
-      {renderProfileImage()}
-      <TouchableOpacity style={styles.deleteButton} onPress={onDeleteUser}>
-        <Text style={styles.deleteButtonText}>Delete Profile</Text>
-      </TouchableOpacity>
+      <View style={styles.profileContainer}>{renderProfileImage()}</View>
+      <View style={styles.container}>
+        <Text style={styles.nameText}>{userName}</Text>
+        <Text style={styles.nameText}>{userEmail}</Text>
+        <View style={styles.bookingHeaderContainer}>
+          <Text style={styles.bookingHeader}>Bookings</Text>
+        </View>
+        <View>
+          <FlatList
+            data={bookings}
+            renderItem={({ item }) => {
+              if (item.user === auth.currentUser.uid)
+                return <BookingItem booking={item} />;
+            }}
+            keyExtractor={(item) => item.listingID}
+          />
+        </View>
+        <TouchableOpacity style={styles.deleteButton} onPress={onDeleteUser}>
+          <Text style={styles.deleteButtonText}>Delete Profile</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
 
-
-
-
-
-
 const styles = StyleSheet.create({
+  profileView: {
+    alignItems: "center",
+  },
+  profileContainer: {
+    // flex: 1,
+  },
   profileImage: {
     width: 200,
     height: 200,
-    borderRadius: 50,
+    borderRadius: 100,
     alignSelf: "center",
   },
   cameraIconContainer: {
@@ -133,38 +184,56 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: 'gray',
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderColor: "gray",
+    alignItems: "center",
+    justifyContent: "center",
   },
   cameraIcon: {
     width: 50,
     height: 50,
   },
   nameText: {
-    marginTop: 16,
-    marginBottom: 16,
+    // marginTop: 16,
+    marginBottom: 5,
+    fontSize: 18,
   },
   deleteButton: {
-    backgroundColor: 'red',
-    borderRadius: 8,
-    padding: 12,
-    alignItems: 'center',
-  },
-  deleteButtonText: {
-    color: 'white',
-    fontWeight: 'bold',
-  },
-  editButton: {
-    marginTop: 10,
-    backgroundColor: "blue",
+    backgroundColor: "red",
     borderRadius: 8,
     padding: 12,
     alignItems: "center",
   },
+  deleteButtonText: {
+    color: "white",
+    fontWeight: "bold",
+  },
+  editButton: {
+    marginTop: 10,
+    backgroundColor: "pink",
+    borderRadius: 8,
+    padding: 12,
+    alignItems: "center",
+    width: 200,
+  },
   editButtonText: {
     color: "white",
     fontWeight: "bold",
+  },
+  bookingHeaderContainer: {
+    alignItems: "center",
+    margin: 10,
+    marginTop: 20,
+    paddingBottom: 5,
+    borderBottomColor: "rgb(230, 230, 230)",
+    borderBottomWidth: 2,
+  },
+  bookingHeader: {
+    fontSize: 20,
+  },
+  container: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 100,
   },
 });
 

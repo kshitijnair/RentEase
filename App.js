@@ -45,7 +45,7 @@ export default function App() {
     <>
       <Stack.Screen
         options={{
-          headerShown: true,
+          headerShown: false,
         }}
         name="Login"
       >

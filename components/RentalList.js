@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "#ddd",
+    borderColor: "rgb(200,200,200)",
     backgroundColor: "#fff",
   },
   activeTab: {

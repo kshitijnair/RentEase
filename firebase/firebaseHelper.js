@@ -1,13 +1,11 @@
 import {
   collection,
   addDoc,
-  doc,
-  deleteDo,
-  db,
+  deleteDoc,
   where,
   query,
-  getDoc,
   getDocs,
+  doc
 } from "firebase/firestore";
 import { firestore, auth } from "./firebaseSetup";
 import {
@@ -112,13 +110,59 @@ export async function getUserDetails(userID) {
     }
     i = i + 1;
   });
-  console.log(first)
+  console.log(first);
   return first;
-  // console.log(querySnapshot[0])
-  // return querySnapshot[0].data();
-  // if (querySnapshot){
-  //   console.log(querySnapshot.id, " => ", querySnapshot.data());
-  // } else {
-  //   return 0;
-  // }
+}
+
+export async function addFeedback(feedback, listingID) {
+  try {
+    let today = new Date();
+    const date =
+      String(today.getMonth() + 1).padStart(2, "0") +
+      "/" +
+      String(today.getDate()).padStart(2, "0") +
+      "/" +
+      today.getFullYear();
+    data = {
+      ...feedback,
+      user: auth.currentUser.uid,
+      date: date,
+      listingID: listingID
+    };
+    console.log(data);
+    const docRef = await addDoc(collection(firestore, "Comments"), data);
+    console.log("Document written with ID: ", docRef.id);
+    return 1;
+  } catch (err) {
+    console.log(err);
+    return -1;
+  }
+}
+
+export async function makeBooking(dateTime, bookingNotes, rental) {
+  try {
+    data = {
+      user: auth.currentUser.uid,
+      listingID: rental.id,
+      address: rental.address,
+      time: dateTime,
+      notes: bookingNotes
+    };
+    console.log(data);
+    const docRef = await addDoc(collection(firestore, "Appointments"), data);
+    console.log("Document written with ID: ", docRef.id);
+    return 1;
+  } catch (err) {
+    console.log(err);
+    return -1;
+  }
+}
+
+export async function deleteBooking(id) {
+  try {
+    await deleteDoc(doc(firestore, "Appointments", id))
+    console.log("id deleted, check FS")
+  } catch (err) {
+    console.log("Error encountered with deleting from database: ", err);
+  }
 }

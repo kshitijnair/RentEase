@@ -58,7 +58,7 @@ This application allows users to:
 # Third Iteration 
 ## Features  (Sujit)
 - Notification
-To ensure that users don't forget about their scheduled home appointments, a reminder notification will be sent to them prior to the appointment time. This notification will serve as a reminder to the user to view their scheduled appointment and make any necessary preparations beforehand.
+- To ensure that users don't forget about their scheduled home appointments, a reminder notification will be sent to them prior to the appointment time. This notification will serve as a reminder to the user to view their scheduled appointment and make any necessary preparations beforehand.
 ## Features (Kshitij)
 - Added Comments
   - User can now add comments to each listing with a review text and rating (0-5)

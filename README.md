@@ -58,3 +58,12 @@ This application allows users to:
 # Second Iteration 
 ## Features  (Sujit)
 ## Features (Kshitij)
+- Added Comments
+  - User can now add comments to each listing with a review text and rating (0-5)
+  - Comments are listing specific, but visible to everyone using the app anonymously.
+- Added Bookings
+  - User can now create bookings (Anonymous user is allowed to make bookings for now, there is a route bug that needs to be fixed to enable proper flow for anonymoususers)
+  - Bookings are made with selected date and time, notes are optional.
+  - User has the ability to cancel a booking from their profile as well.
+- Design
+  - App was designed from last iteration to look more aesthetic. More design changes will be made before the presentation.

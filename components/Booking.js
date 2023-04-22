@@ -155,7 +155,7 @@ const Booking = ({ modalVisible, setbookingModalVisible, rental }) => {
             <Text style={styles.cancelButtonText}>Cancel</Text>
           </Pressable>
         </View>
-{/* 
+        {/* 
         <Button title="Make Appointment" onPress={confirmBooking} />
         <Button title="Cancel" style={{color: '#ff3b30'}} onPress={() => setbookingModalVisible(false)} /> */}
         <DateTimePickerModal
@@ -164,6 +164,7 @@ const Booking = ({ modalVisible, setbookingModalVisible, rental }) => {
           display="inline"
           onConfirm={handleConfirm}
           onCancel={hideDatePicker}
+          minimumDate={new Date()}
         />
       </SafeAreaView>
     </Modal>
@@ -205,7 +206,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 500,
     marginBottom: 5,
-    color: 'rgb(100, 100, 100)'
+    color: "rgb(100, 100, 100)",
   },
   notesBox: {
     borderColor: "rgb(230, 230, 230)",
@@ -217,19 +218,18 @@ const styles = StyleSheet.create({
     backgroundColor: "rgb(230, 230, 230)",
   },
   buttonsContainer: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   bookingButton: {
-    backgroundColor: '#00b300',
+    backgroundColor: "#00b300",
     padding: 20,
     paddingTop: 15,
     paddingBottom: 15,
     borderRadius: 15,
-
   },
   buttonText: {
-    color: 'white',
-    alignSelf: 'center',
+    color: "white",
+    alignSelf: "center",
     fontSize: 20,
   },
   cancelButton: {
@@ -240,9 +240,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   cancelButtonText: {
-    color: '#ff3b30',
-    alignSelf: 'center',
+    color: "#ff3b30",
+    alignSelf: "center",
     fontSize: 18,
-    fontWeight: 400
-  }
+    fontWeight: 400,
+  },
 });

@@ -9,12 +9,21 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import * as Notifications from "expo-notifications";
 
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { makeBooking } from "../firebase/firebaseHelper";
 
-const Booking = ({ modalVisible, setbookingModalVisible, listingID, rental }) => {
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+});
+
+const Booking = ({ modalVisible, setbookingModalVisible, rental }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [pickedDateTime, setPickedDateTime] = useState(null);
   const [pickedDateTimeString, setPickedDateTimeString] =
@@ -22,8 +31,55 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID, rental }) =>
   const [datePicked, setDatePicked] = useState(false);
   const [bookingNotes, setBookingNotes] = useState("");
 
-  console.log("in BOOKINGS:-----------------------------")
-  console.log(rental)
+  useEffect(() => {
+    const notificationListener = Notifications.addNotificationReceivedListener(
+      (notification) => {
+        console.log("Notification received:", notification);
+      }
+    );
+
+    const responseListener =
+      Notifications.addNotificationResponseReceivedListener((response) => {
+        console.log("Notification response received:", response);
+      });
+
+    return () => {
+      notificationListener.remove();
+      responseListener.remove();
+    };
+  }, []);
+
+  const requestNotificationPermission = async () => {
+    const { status } = await Notifications.requestPermissionsAsync();
+    if (status !== "granted") {
+      alert("No notification permissions granted!");
+      return false;
+    }
+    return true;
+  };
+
+  const scheduleNotification = async (dateTime) => {
+    const hasPermission = await requestNotificationPermission();
+    if (!hasPermission) return;
+
+    const appointmentDate = dateTime;
+    const currentDate = new Date();
+    const secondsToAppointment = (appointmentDate - currentDate) / 1000;
+    const secondsEarlier = 5; // 5 minutes in seconds
+
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Your appointment is coming up!",
+        body: `Your appointment is scheduled for ${pickedDateTimeString}`, // Use pickedDateTimeString for display purposes
+      },
+      trigger: {
+        seconds: 1, // Schedule for 5 minutes earlier, or 1 second later if the time is in the past
+      },
+    });
+  };
+
+  console.log("in BOOKINGS:-----------------------------");
+  console.log(rental);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -59,12 +115,9 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID, rental }) =>
       console.log("Booking confirmed: ");
       console.log(pickedDateTimeString);
       console.log(bookingNotes);
-      const res = await makeBooking(
-        pickedDateTimeString,
-        bookingNotes,
-        rental
-      );
+      const res = await makeBooking(pickedDateTimeString, bookingNotes, rental);
       Alert.alert("Booking for: ", pickedDateTimeString);
+      scheduleNotification(pickedDateTime);
       setbookingModalVisible(false);
     } else Alert.alert("No date was selected!");
   };
@@ -83,6 +136,7 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID, rental }) =>
           </Pressable>
         </View>
         <View style={styles.inputView}>
+          <Text style={styles.notesHeader}>Notes</Text>
           <TextInput
             style={styles.notesBox}
             placeholder="text"
@@ -90,8 +144,20 @@ const Booking = ({ modalVisible, setbookingModalVisible, listingID, rental }) =>
             onChangeText={setBookingNotes}
           ></TextInput>
         </View>
+        <View style={styles.buttonsContainer}>
+          <Pressable style={styles.bookingButton} onPress={confirmBooking}>
+            <Text style={styles.buttonText}>Make Appointment</Text>
+          </Pressable>
+          <Pressable
+            style={styles.cancelButton}
+            onPress={() => setbookingModalVisible(false)}
+          >
+            <Text style={styles.cancelButtonText}>Cancel</Text>
+          </Pressable>
+        </View>
+{/* 
         <Button title="Make Appointment" onPress={confirmBooking} />
-        <Button title="Cancel" onPress={() => setbookingModalVisible(false)} />
+        <Button title="Cancel" style={{color: '#ff3b30'}} onPress={() => setbookingModalVisible(false)} /> */}
         <DateTimePickerModal
           isVisible={isDatePickerVisible}
           mode="datetime"
@@ -135,14 +201,48 @@ const styles = StyleSheet.create({
   inputView: {
     alignItems: "center",
   },
+  notesHeader: {
+    fontSize: 16,
+    fontWeight: 500,
+    marginBottom: 5,
+    color: 'rgb(100, 100, 100)'
+  },
   notesBox: {
     borderColor: "rgb(230, 230, 230)",
     borderRadius: 15,
     borderWidth: 2,
     width: 300,
-    // height: 200,
     padding: 10,
     marginBottom: 50,
     backgroundColor: "rgb(230, 230, 230)",
   },
+  buttonsContainer: {
+    alignItems: 'center',
+  },
+  bookingButton: {
+    backgroundColor: '#00b300',
+    padding: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
+    borderRadius: 15,
+
+  },
+  buttonText: {
+    color: 'white',
+    alignSelf: 'center',
+    fontSize: 20,
+  },
+  cancelButton: {
+    marginTop: 10,
+    padding: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
+    borderRadius: 15,
+  },
+  cancelButtonText: {
+    color: '#ff3b30',
+    alignSelf: 'center',
+    fontSize: 18,
+    fontWeight: 400
+  }
 });

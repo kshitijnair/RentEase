@@ -6,6 +6,7 @@ import {
   TextInput,
   Button,
   ScrollView,
+  Pressable,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -18,7 +19,7 @@ const Comment = ({ listingID, modalVisible, setcommentModalVisible }) => {
   const [rating, setRating] = useState(-1);
 
   function removeModal() {
-    console.log("qujwrhgf;iuqerwgh;iuqerohgqoie;rhgaoweirthgqewaoith")
+    console.log("qujwrhgf;iuqerwgh;iuqerohgqoie;rhgaoweirthgqewaoith");
     setComment("");
     setRating(-1);
     setcommentModalVisible(false);
@@ -67,10 +68,18 @@ const Comment = ({ listingID, modalVisible, setcommentModalVisible }) => {
             />
           </View>
         </View>
-        <View style={styles.buttonContainer}>
+        <View style={styles.buttonsContainer}>
+          <Pressable style={styles.bookingButton} onPress={submitComment}>
+            <Text style={styles.buttonText}>Submit</Text>
+          </Pressable>
+          <Pressable style={styles.cancelButton} onPress={removeModal}>
+            <Text style={styles.cancelButtonText}>Cancel</Text>
+          </Pressable>
+        </View>
+        {/* <View style={styles.buttonContainer}>
           <Button title="Cancel" onPress={removeModal} />
           <Button title="Submit" onPress={submitComment} />
-        </View>
+        </View> */}
       </ScrollView>
     </Modal>
   );
@@ -86,8 +95,6 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex: 1,
-    // borderColor: "red",
-    // borderWidth: 2,
     justifyContent: "center",
     width: 300,
   },
@@ -114,8 +121,37 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   buttonContainer: {
-    flex: 1,
+    flex: 4,
     flexDirection: "row",
     justifyContent: "space-around",
+  },
+  buttonsContainer: {
+    alignItems: "center",
+    flex: 1
+  },
+  bookingButton: {
+    backgroundColor: "#00b300",
+    padding: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
+    borderRadius: 15,
+  },
+  buttonText: {
+    color: "white",
+    alignSelf: "center",
+    fontSize: 20,
+  },
+  cancelButton: {
+    marginTop: 10,
+    padding: 20,
+    paddingTop: 15,
+    paddingBottom: 15,
+    borderRadius: 15,
+  },
+  cancelButtonText: {
+    color: "#ff3b30",
+    alignSelf: "center",
+    fontSize: 18,
+    fontWeight: 400,
   },
 });

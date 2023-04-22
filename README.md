@@ -59,10 +59,11 @@ This application allows users to:
 ## Features  (Sujit)
 - Notification
  - To ensure that users don't forget about their scheduled home appointments, a reminder notification will be sent to them prior to the appointment time. For testing, a reminder notification will be sent to users 30 seconds prior to their scheduled home appointment. However, in practice,  the notification be sent at least 30 minutes before the appointment time. This will provide users with enough time to prepare and make any necessary arrangements before the scheduled appointment.
-<img src="[https://media.github.khoury.northeastern.edu/user/14110/files/0014cf26-1e84-423d-b1df-118c9e3d3031](https://media.github.khoury.northeastern.edu/user/14110/files/8ad6aaee-e103-4a52-9928-cf9308790ade)" width="150" height="280">
-<img src="[https://media.github.khoury.northeastern.edu/user/14110/files/5e14b808-4f5c-4a92-89d7-9de564656813](https://media.github.khoury.northeastern.edu/user/14110/files/63ae4daa-ebc4-4310-ae86-7da6637385cd)" width="150" height="280">
-<img src="[https://media.github.khoury.northeastern.edu/user/14110/files/c9c0de5c-23e3-4d00-a6dc-978be6714e93](https://media.github.khoury.northeastern.edu/user/14110/files/23627aea-c74e-42c7-8b9b-9fdda5dbb99e)" width="150" height="280">
-
+ <p float="left"> 
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/8ad6aaee-e103-4a52-9928-cf9308790ade" width="150" height="280">
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/63ae4daa-ebc4-4310-ae86-7da6637385cd" width="150" height="280">
+<img src="https://media.github.khoury.northeastern.edu/user/14110/files/23627aea-c74e-42c7-8b9b-9fdda5dbb99e" width="150" height="280">
+</p>
 ## Features (Kshitij)
 - Added Comments
   - User can now add comments to each listing with a review text and rating (0-5)

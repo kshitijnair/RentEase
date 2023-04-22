@@ -70,10 +70,11 @@ const Booking = ({ modalVisible, setbookingModalVisible, rental }) => {
     await Notifications.scheduleNotificationAsync({
       content: {
         title: "Your appointment is coming up!",
-        body: `Your appointment is scheduled for ${pickedDateTimeString}`, // Use pickedDateTimeString for display purposes
+        body: `It is scheduled for ${pickedDateTimeString}`, // Use pickedDateTimeString for display purposes
       },
       trigger: {
-        seconds: 1, // Schedule for 5 minutes earlier, or 1 second later if the time is in the past
+        // seconds: (secondsToAppointment - secondsEarlier) > 0 ? (secondsToAppointment - secondsEarlier) : 1, // Schedule for 5 minutes earlier, or 1 second later if the time is in the past
+        seconds: 1800 // Schedule for 30s
       },
     });
   };

@@ -17,6 +17,13 @@ const RentalListItem = ({ data, bookmarks, toggleBookmark }) => {
   const navigation = useNavigation();
   const [searchText, setSearchText] = useState("");
 
+  const filteredData = data.filter(
+    (item) =>
+      item.title.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.address.toLowerCase().includes(searchText.toLowerCase()) ||
+      item.location.toLowerCase().includes(searchText.toLowerCase())
+  );
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       onPress={() => navigation.navigate("RentalDetail", { rental: item })}
@@ -25,33 +32,28 @@ const RentalListItem = ({ data, bookmarks, toggleBookmark }) => {
         <Image source={{ uri: item.image }} style={styles.image} />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.text}>{item.address}</Text>
-          <Text style={styles.text}>Type: {item.type}</Text>
-          <Text style={styles.text}>Location: {item.location}</Text>
-          <Text style={styles.text}>Price: ${item.price}/month</Text>
-          <Text style={styles.text}>Rooms: {item.rooms}</Text>
-          <Text style={styles.text}>Bathrooms: {item.bathrooms}</Text>
-          <Text style={styles.text}>Min Lease: {item.minLease} months</Text>
-          <Text style={styles.text}>Description: {item.description}</Text>
-          <TouchableOpacity
-            onPress={() => toggleBookmark(item.id)}
-            style={styles.bookmarkButton}
-          >
-            <Icon
-              name={bookmarks.includes(item.id) ? "bookmark" : "bookmark-o"}
-              size={20}
-              color="#000"
-            />
-          </TouchableOpacity>
+          <View style={styles.locationContainer}>
+            <Text style={styles.locationText}>{item.location}</Text>
+          </View>
+          <View style={styles.detailsTextContainer}>
+            <Text style={styles.text}>
+              {item.rooms} Room + {item.bathrooms} Bathroom
+            </Text>
+            <Text style={[styles.text, styles.priceText]}>${item.price}</Text>
+          </View>
         </View>
+        <TouchableOpacity
+          onPress={() => toggleBookmark(item.id)}
+          style={styles.bookmarkButton}
+        >
+          <Icon
+            name={bookmarks.includes(item.id) ? "bookmark" : "bookmark-o"}
+            size={20}
+            color="#000"
+          />
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
-  );
-
-  const filteredData = data.filter(
-    (item) =>
-      item.title.toLowerCase().includes(searchText.toLowerCase()) ||
-      item.address.toLowerCase().includes(searchText.toLowerCase())
   );
 
   return (
@@ -82,25 +84,46 @@ const styles = StyleSheet.create({
     borderBottomColor: "#ccc",
   },
   image: {
-    width: 180,
-    height: 180,
+    width: 150,
+    height: 125,
     marginRight: 10,
+    borderRadius: 10,
   },
   textContainer: {
     flex: 1,
+    marginLeft: 5,
+  },
+  locationContainer: {
+    flex: 2,
+  },
+  locationText: {
+    fontSize: 16,
+    fontWeight: 500,
+  },
+  detailsTextContainer: {
+    flex: 5,
   },
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 10,
+    marginBottom: 5,
+    marginTop: 5,
   },
   text: {
-    fontSize: 10,
+    fontSize: 16,
+    marginBottom: 2,
+  },
+  priceText: {
+    color: "green",
+    fontSize: 18,
+    fontWeight: 600,
+    marginTop: 3,
   },
   searchBar: {
     height: 40,
     borderWidth: 1,
     borderRadius: 10,
+    borderColor: "rgb(200, 200, 200)",
     margin: 10,
     paddingHorizontal: 10,
   },

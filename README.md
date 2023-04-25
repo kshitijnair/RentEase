@@ -10,6 +10,12 @@ Run:
 
 `npx expo start` OR `npx expo start --tunnel`
 
+# Presentation
+https://docs.google.com/presentation/d/1innB6-fD5BHCgv44P2-9zbG-yxf64O_8wsUvUdbPRvw/edit?usp=sharing
+
+# Demo
+https://youtu.be/tOdxhNyyd6M
+
 # First Iteration
 ## Features (Sujit)
 This application allows users to:

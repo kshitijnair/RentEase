@@ -7,7 +7,7 @@ import {
   Button,
   Alert,
 } from "react-native";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import * as Location from "expo-location";
 import { auth } from "../firebase/firebaseSetup";
 import { addNewUserToFirebase } from "../firebase/firebaseHelper";
@@ -94,43 +94,75 @@ const ProfileSetup = ({ setUserHasProfile }) => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Full Name</Text>
-        <TextInput
-          value={profileName}
-          onChangeText={(newName) => {
-            console.log("-----------------------------", newName);
-            setProfileName(newName);
-          }}
-        />
-        <Text>Age</Text>
-        <TextInput
-          value={userAge}
-          onChangeText={(newAge) => setUserAge(newAge)}
-          keyboardType="numeric"
-        />
-        <Text>Phone Number</Text>
-        <TextInput
-          value={userPhone}
-          onChangeText={(newPhone) => setUserPhone(newPhone)}
-          keyboardType="numeric"
-        />
-        <Text>Work</Text>
-        <TextInput
-          value={userWork}
-          onChangeText={(newWork) => setUserWork(newWork)}
-        />
-        <Text>Location</Text>
-        <TextInput
-          value={userLocation}
-          onChangeText={(newLocation) => setUserLocation(newLocation)}
-        />
-        <Button title="Locate me" onPress={getUserLocation} />
+        <View style={[styles.inputContainer]}>
+          <Text style={styles.header}>Enter Profile Details</Text>
+          <TextInput
+            style={styles.inputField}
+            value={profileName}
+            placeholder="Full Name"
+            onChangeText={(newName) => {
+              console.log("-----------------------------", newName);
+              setProfileName(newName);
+            }}
+          />
+          <TextInput
+            style={styles.inputField}
+            value={userAge}
+            placeholder="Age"
+            onChangeText={(newAge) => setUserAge(newAge)}
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={styles.inputField}
+            value={userPhone}
+            placeholder="Phone Number"
+            onChangeText={(newPhone) => setUserPhone(newPhone)}
+            keyboardType="numeric"
+          />
+          <TextInput
+            style={styles.inputField}
+            value={userWork}
+            placeholder="Work"
+            onChangeText={(newWork) => setUserWork(newWork)}
+          />
+          <TextInput
+            style={styles.inputField}
+            value={userLocation}
+            placeholder="Location"
+            onChangeText={(newLocation) => setUserLocation(newLocation)}
+          />
+          <Button title="Locate me" onPress={getUserLocation} />
+        </View>
+        <View>
+          <Button title="Create Account" onPress={verifyAndAddUser} />
+        </View>
       </View>
-      <Button title="Create Account" onPress={verifyAndAddUser} />
     </SafeAreaView>
   );
 };
 
 export default ProfileSetup;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  header: {
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 0,
+    fontSize: 22,
+    fontWeight: 400,
+    marginTop: 75,
+    marginBottom: 75,
+  },
+  inputContainer: {
+    alignItems: "center",
+    alignSelf: "center",
+    marginBottom: 50,
+  },
+  inputField: {
+    backgroundColor: "rgba(100, 100, 100, 0.05)",
+    borderRadius: 15,
+    padding: 15,
+    marginTop: 10,
+    width: 225,
+  },
+});
